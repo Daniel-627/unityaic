@@ -5,19 +5,22 @@ import Image           from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState }    from 'react'
 import { Menu, X }     from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
 
 const NAV_LINKS = [
-  { label: 'Home',       href: '/'        },
-  { label: 'About',      href: '/about'   },
-  { label: 'Events',     href: '/events'  },
+  { label: 'Home',       href: '/'           },
+  { label: 'About',      href: '/about'      },
+  { label: 'Events',     href: '/events'     },
   { label: 'Ministries', href: '/ministries' },
-  { label: 'Gallery',    href: '/gallery' },
-  { label: 'Contact',    href: '/contact' },
+  { label: 'Gallery',    href: '/gallery'    },
+  { label: 'Contact',    href: '/contact'    },
 ]
 
 export function Navbar() {
-  const pathname   = usePathname()
+  const pathname        = usePathname()
   const [open, setOpen] = useState(false)
+  const { data: session, status } = useSession()
+  const loading = status === 'loading'
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border shadow-[0_1px_3px_rgba(27,58,107,0.08)]">
@@ -26,13 +29,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 no-underline shrink-0">
           <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center ring-2 ring-primary/20">
-            <Image
-              src="/aiclogo.png"
-              alt="AIC Logo"
-              width={28}
-              height={28}
-              className="object-contain"
-            />
+            <Image src="/aiclogo.png" alt="AIC Logo" width={28} height={28} className="object-contain" />
           </div>
           <div className="hidden sm:block">
             <p className="font-display text-sm font-bold text-primary leading-tight">Unity AIC</p>
@@ -50,9 +47,7 @@ export function Navbar() {
                 href={link.href}
                 className={[
                   'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors no-underline',
-                  active
-                    ? 'text-primary bg-sunken'
-                    : 'text-muted hover:text-primary hover:bg-sunken',
+                  active ? 'text-primary bg-sunken' : 'text-muted hover:text-primary hover:bg-sunken',
                 ].join(' ')}
               >
                 {link.label}
@@ -63,18 +58,39 @@ export function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-2">
-          <Link
-            href="/login"
-            className="px-4 py-2 rounded-lg text-sm font-medium text-primary border border-border hover:bg-sunken transition-colors no-underline"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/register"
-            className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary-light transition-colors no-underline"
-          >
-            Join us
-          </Link>
+          {!loading && (
+            session ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-primary border border-border hover:bg-sunken transition-colors no-underline"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => signOut({ callbackUrl: '/login' })}
+                  className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary-light transition-colors cursor-pointer"
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-primary border border-border hover:bg-sunken transition-colors no-underline"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary-light transition-colors no-underline"
+                >
+                  Join us
+                </Link>
+              </>
+            )
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -99,30 +115,51 @@ export function Navbar() {
                 onClick={() => setOpen(false)}
                 className={[
                   'px-3 py-2.5 rounded-lg text-sm font-medium transition-colors no-underline',
-                  active
-                    ? 'text-primary bg-sunken font-semibold'
-                    : 'text-muted hover:text-primary hover:bg-sunken',
+                  active ? 'text-primary bg-sunken font-semibold' : 'text-muted hover:text-primary hover:bg-sunken',
                 ].join(' ')}
               >
                 {link.label}
               </Link>
             )
           })}
+
           <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-border">
-            <Link
-              href="/login"
-              onClick={() => setOpen(false)}
-              className="w-full py-2.5 rounded-lg text-sm font-medium text-primary border border-border text-center hover:bg-sunken transition-colors no-underline"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/register"
-              onClick={() => setOpen(false)}
-              className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-primary text-center hover:bg-primary-light transition-colors no-underline"
-            >
-              Join us
-            </Link>
+            {!loading && (
+              session ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="w-full py-2.5 rounded-lg text-sm font-medium text-primary border border-border text-center hover:bg-sunken transition-colors no-underline"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => { setOpen(false); signOut({ callbackUrl: '/login' }) }}
+                    className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-primary text-center hover:bg-primary-light transition-colors cursor-pointer"
+                  >
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    onClick={() => setOpen(false)}
+                    className="w-full py-2.5 rounded-lg text-sm font-medium text-primary border border-border text-center hover:bg-sunken transition-colors no-underline"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setOpen(false)}
+                    className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-primary text-center hover:bg-primary-light transition-colors no-underline"
+                  >
+                    Join us
+                  </Link>
+                </>
+              )
+            )}
           </div>
         </div>
       )}
