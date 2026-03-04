@@ -1,9 +1,10 @@
 'use client'
 
-import Link             from 'next/link'
-import Image            from 'next/image'
-import { usePathname }  from 'next/navigation'
-import { X }            from 'lucide-react'
+import Link            from 'next/link'
+import Image           from 'next/image'
+import { usePathname } from 'next/navigation'
+import { X, LogOut }   from 'lucide-react'
+import { signOut }     from 'next-auth/react'
 
 const NAV_ITEMS = [
   {
@@ -118,9 +119,9 @@ function NavContent({ onClose }: { onClose?: () => void }) {
         ))}
       </nav>
 
-      {/* User pill */}
+      {/* User pill + logout */}
       <div className="p-3 border-t border-accent/20">
-        <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-white/[0.06] cursor-pointer hover:bg-white/10 transition-colors">
+        <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-white/[0.06] hover:bg-white/10 transition-colors">
           <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-xs font-bold text-primary-dark shrink-0">
             U
           </div>
@@ -128,8 +129,17 @@ function NavContent({ onClose }: { onClose?: () => void }) {
             <p className="text-[13px] font-medium text-white truncate">Admin User</p>
             <p className="text-[11px] text-white/40">ADMIN</p>
           </div>
+          <button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="text-white/30 hover:text-white/80 transition-colors cursor-pointer p-1 rounded"
+            aria-label="Sign out"
+            title="Sign out"
+          >
+            <LogOut size={14} />
+          </button>
         </div>
       </div>
+
     </div>
   )
 }
