@@ -22,6 +22,9 @@ export function Navbar() {
   const { data: session, status } = useSession()
   const loading = status === 'loading'
 
+  const userName = session?.user?.name ?? ''
+  const initials = userName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2) || 'U'
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border shadow-[0_1px_3px_rgba(27,58,107,0.08)]">
       <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
@@ -61,12 +64,18 @@ export function Navbar() {
           {!loading && (
             session ? (
               <>
+                {/* Avatar */}
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-white ring-2 ring-accent shrink-0">
+                  {initials}
+                </div>
+
                 <Link
                   href="/dashboard"
                   className="px-4 py-2 rounded-lg text-sm font-medium text-primary border border-border hover:bg-sunken transition-colors no-underline"
                 >
                   Dashboard
                 </Link>
+
                 <button
                   onClick={() => signOut({ callbackUrl: '/login' })}
                   className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary-light transition-colors cursor-pointer"
@@ -127,6 +136,17 @@ export function Navbar() {
             {!loading && (
               session ? (
                 <>
+                  {/* Mobile avatar + name */}
+                  <div className="flex items-center gap-2.5 px-3 py-2">
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-white ring-2 ring-accent shrink-0">
+                      {initials}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-primary">{userName}</p>
+                      <p className="text-xs text-muted">{session.user.role}</p>
+                    </div>
+                  </div>
+
                   <Link
                     href="/dashboard"
                     onClick={() => setOpen(false)}
@@ -134,6 +154,7 @@ export function Navbar() {
                   >
                     Dashboard
                   </Link>
+
                   <button
                     onClick={() => { setOpen(false); signOut({ callbackUrl: '/login' }) }}
                     className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-primary text-center hover:bg-primary-light transition-colors cursor-pointer"
