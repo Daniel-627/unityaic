@@ -5,6 +5,7 @@ import Image           from 'next/image'
 import { usePathname } from 'next/navigation'
 import { X, LogOut }   from 'lucide-react'
 import { signOut }     from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 const NAV_ITEMS = [
   {
@@ -49,6 +50,10 @@ const NAV_ITEMS = [
 
 function NavContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname()
+  const { data: session } = useSession()
+  const userName = session?.user?.name ?? 'Member'
+  const userRole = session?.user?.role ?? 'MEMBER'
+  const initials = userName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
 
   return (
     <div className="flex flex-col h-full">
@@ -123,11 +128,11 @@ function NavContent({ onClose }: { onClose?: () => void }) {
       <div className="p-3 border-t border-accent/20">
         <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-white/[0.06] hover:bg-white/10 transition-colors">
           <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-xs font-bold text-primary-dark shrink-0">
-            U
+            {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-medium text-white truncate">Admin User</p>
-            <p className="text-[11px] text-white/40">ADMIN</p>
+            <p className="text-[13px] font-medium text-white truncate">{userName}</p>
+            <p className="text-[11px] text-white/40">{userRole}</p>
           </div>
           <button
             onClick={() => signOut({ callbackUrl: '/login' })}
