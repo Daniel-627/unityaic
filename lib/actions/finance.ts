@@ -40,7 +40,7 @@ const fundSchema = z.object({
   name:         z.string().min(2),
   type:         z.enum(['TITHE', 'OFFERING', 'BUILDING', 'BENEVOLENCE', 'GENERAL']),
   description:  z.string().optional(),
-  targetAmount: z.coerce.number().optional(),
+  targetAmount: z.string().optional(),
 })
 
 const remittanceRateSchema = z.object({
@@ -100,12 +100,12 @@ export async function createFund(data: unknown) {
   const { name, type, description, targetAmount } = parsed.data
 
   await db.insert(funds).values({
-    name,
-    type,
-    description:  description  ?? null,
-    targetAmount: targetAmount ?? null,
-    isActive:     true,
-  })
+  name,
+  type,
+  description:  description  ?? null,
+  targetAmount: targetAmount ?? null,
+  isActive:     true,
+})
 
   return { success: true }
 }
