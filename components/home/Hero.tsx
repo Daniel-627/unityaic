@@ -60,20 +60,22 @@ export default function Hero() {
         </div>
 
         {/* Service times — simple, inline */}
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 border-t border-white/15 pt-6 w-full">
-          {[
-            { day: 'Sunday',    time: '8:00 AM',  name: 'First Service'  },
-            { day: 'Sunday',    time: '10:30 AM', name: 'Second Service' },
-            { day: 'Wednesday', time: '6:30 PM',  name: 'Bible Study'    },
-            { day: 'Friday',    time: '6:00 PM',  name: 'Prayer Night'   },
-          ].map((s, i) => (
-            <div key={i} className="flex items-center gap-2 text-xs">
-              <span className="text-accent font-semibold">{s.day}</span>
-              <span className="text-white font-bold">{s.time}</span>
-              <span className="text-white/40">{s.name}</span>
-            </div>
-          ))}
-        </div>
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-4 border-t border-white/15 pt-6 w-full">
+            {[
+              { day: 'Sunday',    time: '8:00 AM',  name: 'First Service'  },
+              { day: 'Sunday',    time: '10:30 AM', name: 'Second Service' },
+              { day: 'Wednesday', time: '6:30 PM',  name: 'Bible Study'    },
+              { day: 'Friday',    time: '6:00 PM',  name: 'Prayer Night'   },
+            ].map((s, i) => (
+              <div key={i} className="flex flex-col items-center text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-accent font-semibold">{s.day}</span>
+                  <span className="text-white font-bold">{s.time}</span>
+                </div>
+                <span className="text-white/40 mt-0.5">{s.name}</span>
+              </div>
+            ))}
+          </div>
 
       </div>
 
