@@ -17,7 +17,8 @@ export default function Hero() {
       />
 
       {/* Overlay — darker at bottom so text is always readable */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/55 to-black/75" />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50" />
 
       {/* Content — centered, max width, padded */}
       <div className="relative z-10 w-full max-w-3xl mx-auto px-6 sm:px-10 text-center flex flex-col items-center gap-6">
@@ -36,7 +37,7 @@ export default function Hero() {
         </h1>
 
         {/* Subtext */}
-        <p className="text-white/75 text-base sm:text-lg leading-relaxed max-w-xl">
+        <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-xl">
           No matter where you are on your journey, you're welcome here.
           Whether you're seeking answers or looking for community,
           we invite you to join us.
@@ -48,7 +49,7 @@ export default function Hero() {
             href="/register"
             className="w-full sm:w-auto px-8 py-3 rounded bg-accent text-primary font-bold text-sm text-center hover:bg-accent-light transition-colors no-underline"
           >
-            Plan a Visit
+            Become a Member
           </Link>
           <Link
             href="/contact"
