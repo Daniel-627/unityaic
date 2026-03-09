@@ -1,29 +1,31 @@
 import Image from 'next/image'
+import Link  from 'next/link'
 
 export function Pillars() {
   return (
     <section className="py-24 px-4 sm:px-8 md:px-16 bg-white">
       <div className="max-w-6xl mx-auto">
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           {/* Left — photo collage */}
-          <div className="relative h-480px sm:h-540px ">
+          <div className="relative h-[480px] sm:h-[540px]">
             {/* Main photo */}
             <div className="absolute top-0 left-0 w-[72%] h-[75%] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=800&q=80"
+                src="/church.jpg"
                 alt="Church community"
                 fill
+                unoptimized
                 className="object-cover"
               />
             </div>
             {/* Secondary photo */}
             <div className="absolute bottom-0 right-0 w-[52%] h-[50%] rounded-2xl overflow-hidden shadow-xl border-4 border-white">
               <Image
-                src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=80"
+                src="/church.jpg"
                 alt="Bible study"
                 fill
+                unoptimized
                 className="object-cover"
               />
             </div>
@@ -43,14 +45,15 @@ export function Pillars() {
               <h2 className="font-display text-3xl sm:text-4xl font-bold text-primary leading-tight mb-5">
                 We Preach the Gospel<br />in Every Service
               </h2>
-              <p className="text-muted text-sm leading-relaxed border-l-4 border-accent/30 pl-4">
+              <p className="text-muted text-sm leading-relaxed pl-4">
                 At Unity AIC we are committed to the faithful preaching of Scripture —
                 expository, Christ-centred, and practically applied to everyday life.
                 Every sermon is an encounter with the living Word.
               </p>
             </div>
 
-            <div className="flex flex-col gap-5">
+            {/* Pillars list — gap-7 for more breathing room */}
+            <div className="flex flex-col gap-7">
               {[
                 {
                   num:   '01',
@@ -65,7 +68,7 @@ export function Pillars() {
                 {
                   num:   '03',
                   title: 'Community',
-                  text:  'From Youth to Men\'s Fellowship — we build real relationships for every season of life.',
+                  text:  "From Youth to Men's Fellowship — we build real relationships for every season of life.",
                 },
               ].map(p => (
                 <div key={p.num} className="flex items-start gap-4 group">
@@ -80,13 +83,16 @@ export function Pillars() {
               ))}
             </div>
 
-            <a
+            {/* Button — arrow as separate element so gap works */}
+            <Link
               href="/about"
               className="self-start flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary-light transition-colors no-underline"
             >
-              About The Church →
-            </a>
+              About The Church
+              <span>→</span>
+            </Link>
           </div>
+
         </div>
       </div>
     </section>

@@ -60,7 +60,7 @@ export default function Hero() {
         </div>
 
         {/* Service times — simple, inline */}
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-4 border-t border-white/15 pt-6 w-full">
+        <div className="flex flex-wrap justify-center gap-6 gap-y-3 mt-4 border-t border-white/15 pt-6 w-full">
             {[
               { day: 'Sunday',    time: '8:00 AM',  name: 'First Service'  },
               { day: 'Sunday',    time: '10:30 AM', name: 'Second Service' },
