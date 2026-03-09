@@ -5,14 +5,14 @@ import Link  from "next/link"
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-[85vh] min-h-[560px] flex items-center justify-center overflow-hidden">
-
+    <section className="relative w-full h-screen min-h-[640px] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <Image
-        src="/church.jpeg"
+        src="/church.jpg"
         alt="Unity AIC Church congregation"
         fill
         priority
+        unoptimized
         className="object-cover object-center"
       />
 
