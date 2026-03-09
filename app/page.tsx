@@ -1,6 +1,6 @@
 import { getEvents }         from '@/lib/actions/events'
 import { getDepartments }    from '@/lib/actions/ministry'
-import { Hero }              from '@/components/home/Hero'
+import Hero                  from '@/components/home/Hero'
 import { Pillars }           from '@/components/home/Pillars'
 import { UpcomingEvents }    from '@/components/home/UpcomingEvents'
 import { Ministries }        from '@/components/home/Ministries'

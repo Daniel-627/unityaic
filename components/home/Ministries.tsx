@@ -48,71 +48,85 @@ const DEPT_CONFIG: Record<string, {
   },
 }
 
+
 export function Ministries({ departments }: { departments: Department[] }) {
-  if (departments.length === 0) return null
+  if (!departments.length) return null
 
   return (
-    <section className="py-20 px-4 sm:px-6 bg-white">
-      <div className="max-w-5xl mx-auto">
+    <section className="py-16 sm:py-20 px-4 sm:px-6 bg-white">
+      <div className="max-w-6xl mx-auto">
 
         {/* Heading */}
-        <div className="text-center mb-14">
-          <p className="text-accent text-xs font-semibold uppercase tracking-[0.2em] mb-3">
+        <div className="text-center mb-14 max-w-2xl mx-auto">
+          <p className="text-accent text-xs font-semibold tracking-[0.25em] uppercase mb-3">
             Find Your Place
           </p>
+
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-primary mb-4">
             Our Ministries
           </h2>
-          <p className="text-muted text-sm sm:text-base max-w-xl mx-auto">
-            We have a ministry for every season of life.
-            Find your community and grow in faith together.
+
+          <p className="text-muted text-sm sm:text-base">
+            We have a ministry for every season of life. Find your
+            community and grow in faith together.
           </p>
         </div>
 
-        {/* Ministry cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {departments.map(dept => {
+        {/* Cards */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+          {departments.map((dept) => {
             const config = DEPT_CONFIG[dept.type]
+
             return (
               <div
                 key={dept.id}
-                className="flex flex-col gap-4 p-6 rounded-2xl border border-border hover:shadow-lg hover:border-primary/20 transition-all"
+                className="flex flex-col p-6 rounded-2xl border border-border hover:shadow-lg transition"
               >
-                <div className="flex items-center gap-3">
-                  <div className={`w-11 h-11 rounded-xl ${config?.bg ?? 'bg-gray-50'} flex items-center justify-center text-xl shrink-0`}>
-                    {config?.emoji ?? '⛪'}
+
+                <div className="flex items-center gap-3 mb-3">
+
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl ${config?.bg ?? "bg-gray-50"}`}>
+                    {config?.emoji ?? "⛪"}
                   </div>
-                  <h3 className="font-display text-base font-bold text-primary leading-tight">
+
+                  <h3 className="font-display font-bold text-primary">
                     {dept.name}
                   </h3>
+
                 </div>
 
-                <p className="text-sm text-muted leading-relaxed">
-                  {dept.description ?? config?.description ?? ''}
+                <p className="text-sm text-muted leading-relaxed flex-grow">
+                  {dept.description ?? config?.description ?? ""}
                 </p>
 
-                <div className="flex items-center justify-between pt-3 border-t border-border mt-auto">
-                  <span className="text-xs text-muted">
-                    {dept.memberCount} member{dept.memberCount !== 1 ? 's' : ''}
+                <div className="flex justify-between pt-4 border-t border-border mt-5 text-xs text-muted">
+
+                  <span>
+                    {dept.memberCount} member{dept.memberCount !== 1 && "s"}
                   </span>
+
                   {dept.headName && (
-                    <span className="text-xs text-muted">
+                    <span>
                       Led by <span className="font-medium text-primary">{dept.headName}</span>
                     </span>
                   )}
+
                 </div>
               </div>
             )
           })}
+
         </div>
 
-        {/* Join CTA */}
-        <div className="text-center mt-10">
+        {/* CTA */}
+        <div className="text-center mt-12">
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-light transition-colors no-underline"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-light transition"
           >
-            Join a Ministry <ArrowRight size={15} />
+            Join a Ministry
+            <ArrowRight size={16} />
           </Link>
         </div>
       </div>

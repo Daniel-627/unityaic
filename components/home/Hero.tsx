@@ -1,92 +1,81 @@
-import Link  from 'next/link'
-import Image from 'next/image'
+"use client"
 
-export function Hero() {
+import Image from "next/image"
+import Link  from "next/link"
+
+export default function Hero() {
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full h-[85vh] min-h-[560px] flex items-center justify-center overflow-hidden">
 
-      {/* Background */}
-      <div className="absolute inset-0 bg-primary" />
-
-      {/* Subtle pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}
+      {/* Background Image */}
+      <Image
+        src="/church.jpeg"
+        alt="Unity AIC Church congregation"
+        fill
+        priority
+        className="object-cover object-center"
       />
 
-      {/* Gold accent bar at top */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-accent" />
+      {/* Overlay — darker at bottom so text is always readable */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/55 to-black/75" />
 
-      {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center flex flex-col items-center gap-8">
+      {/* Content — centered, max width, padded */}
+      <div className="relative z-10 w-full max-w-3xl mx-auto px-6 sm:px-10 text-center flex flex-col items-center gap-6">
 
-        {/* Logo */}
-        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center ring-4 ring-accent/40 shadow-2xl">
-          <Image
-            src="/aiclogo.png"
-            alt="Unity AIC Church"
-            width={56}
-            height={56}
-            className="object-contain"
-          />
-        </div>
-
-        {/* Tag */}
-        <div className="flex items-center gap-2">
-          <div className="h-px w-8 bg-accent" />
-          <span className="text-accent text-xs font-semibold uppercase tracking-[0.2em]">
-            Africa Inland Church Kenya
-          </span>
-          <div className="h-px w-8 bg-accent" />
-        </div>
+        {/* Eyebrow */}
+        <p className="text-accent text-xs font-bold uppercase tracking-[0.2em]">
+          Africa Inland Church Kenya
+        </p>
 
         {/* Heading */}
-        <div className="flex flex-col gap-3">
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-            Unity AIC Church
-          </h1>
-          <p className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            A community of faith rooted in the Word, united in worship,
-            and committed to serving God and one another.
-          </p>
-        </div>
+        <h1 className="font-display font-bold text-white leading-tight
+          text-4xl
+          sm:text-5xl
+          md:text-6xl">
+          Welcome Home to<br />Faith and Community.
+        </h1>
+
+        {/* Subtext */}
+        <p className="text-white/75 text-base sm:text-lg leading-relaxed max-w-xl">
+          No matter where you are on your journey, you're welcome here.
+          Whether you're seeking answers or looking for community,
+          we invite you to join us.
+        </p>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto mt-2">
           <Link
             href="/register"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-accent text-primary font-bold text-sm hover:bg-accent-light transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 no-underline text-center"
+            className="w-full sm:w-auto px-8 py-3 rounded bg-accent text-primary font-bold text-sm text-center hover:bg-accent-light transition-colors no-underline"
           >
-            Join Our Community
+            Plan a Visit
           </Link>
           <Link
-            href="/about"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white/10 backdrop-blur-sm text-white font-semibold text-sm hover:bg-white/20 transition-all border border-white/20 no-underline text-center"
+            href="/contact"
+            className="w-full sm:w-auto px-8 py-3 rounded border border-white/40 text-white font-semibold text-sm text-center hover:bg-white/10 transition-colors no-underline"
           >
-            Learn More
+            Connect With Us
           </Link>
         </div>
 
-        {/* Service times */}
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-2">
+        {/* Service times — simple, inline */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 border-t border-white/15 pt-6 w-full">
           {[
-            { day: 'Sunday',    time: '8:00 AM & 10:30 AM', label: 'Main Service'  },
-            { day: 'Wednesday', time: '6:30 PM',             label: 'Midweek Study' },
-            { day: 'Friday',    time: '6:00 PM',             label: 'Prayer Night'  },
-          ].map(s => (
-            <div key={s.day} className="text-center">
-              <p className="text-accent text-xs font-semibold uppercase tracking-wider">{s.day}</p>
-              <p className="text-white font-bold text-sm mt-0.5">{s.time}</p>
-              <p className="text-white/50 text-xs">{s.label}</p>
+            { day: 'Sunday',    time: '8:00 AM',  name: 'First Service'  },
+            { day: 'Sunday',    time: '10:30 AM', name: 'Second Service' },
+            { day: 'Wednesday', time: '6:30 PM',  name: 'Bible Study'    },
+            { day: 'Friday',    time: '6:00 PM',  name: 'Prayer Night'   },
+          ].map((s, i) => (
+            <div key={i} className="flex items-center gap-2 text-xs">
+              <span className="text-accent font-semibold">{s.day}</span>
+              <span className="text-white font-bold">{s.time}</span>
+              <span className="text-white/40">{s.name}</span>
             </div>
           ))}
         </div>
+
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
     </section>
   )
 }
