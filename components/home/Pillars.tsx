@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import Link  from 'next/link'
+import Link from 'next/link'
 
 export function Pillars() {
   return (
@@ -7,37 +6,18 @@ export function Pillars() {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-          {/* Left — photo collage */}
-          <div className="relative h-[480px] sm:h-[540px]">
-            {/* Main photo */}
-            <div className="absolute top-0 left-0 w-[72%] h-[75%] rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src="/church.jpg"
-                alt="Church community"
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            </div>
-            {/* Secondary photo */}
-            <div className="absolute bottom-0 right-0 w-[52%] h-[50%] rounded-2xl overflow-hidden shadow-xl border-4 border-white">
-              <Image
-                src="/church.jpg"
-                alt="Bible study"
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            </div>
-            {/* Gold accent badge */}
-            <div className="absolute bottom-[46%] left-[66%] z-10 bg-accent text-primary px-4 py-3 rounded-xl shadow-lg">
-              <p className="font-display text-2xl font-bold leading-none">1895</p>
-              <p className="text-[10px] font-semibold uppercase tracking-wider mt-0.5 text-primary/70">Est.</p>
-            </div>
+          {/* Left — simple image card */}
+          <div className="rounded-2xl overflow-hidden shadow-xl w-full h-[420px] sm:h-[500px]">
+            <img
+              src="/church.jpg"
+              alt="Unity AIC Church"
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* Right — text */}
           <div className="flex flex-col gap-8">
+
             <div>
               <p className="text-accent text-[11px] font-bold uppercase tracking-[0.25em] mb-3">
                 Work of the Church
@@ -45,14 +25,13 @@ export function Pillars() {
               <h2 className="font-display text-3xl sm:text-4xl font-bold text-primary leading-tight mb-5">
                 We Preach the Gospel<br />in Every Service
               </h2>
-              <p className="text-muted text-sm leading-relaxed pl-4">
+              <p className="text-muted text-sm leading-relaxed pl-4 border-l-4 border-accent">
                 At Unity AIC we are committed to the faithful preaching of Scripture —
                 expository, Christ-centred, and practically applied to everyday life.
                 Every sermon is an encounter with the living Word.
               </p>
             </div>
 
-            {/* Pillars list — gap-7 for more breathing room */}
             <div className="flex flex-col gap-7">
               {[
                 {
@@ -71,8 +50,8 @@ export function Pillars() {
                   text:  "From Youth to Men's Fellowship — we build real relationships for every season of life.",
                 },
               ].map(p => (
-                <div key={p.num} className="flex items-start gap-4 group">
-                  <span className="font-display text-2xl font-bold text-border group-hover:text-accent/30 transition-colors leading-none shrink-0 mt-1">
+                <div key={p.num} className="flex items-start gap-4">
+                  <span className="font-display text-2xl font-bold text-border leading-none shrink-0 mt-1">
                     {p.num}
                   </span>
                   <div>
@@ -83,16 +62,14 @@ export function Pillars() {
               ))}
             </div>
 
-            {/* Button — arrow as separate element so gap works */}
             <Link
               href="/about"
-              className="self-start flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary-light transition-colors no-underline"
+              style={{ backgroundColor: '#1B3A6B', color: '#ffffff', padding: '12px 24px', borderRadius: '8px', fontSize: '14px', fontWeight: '700', display: 'inline-block', textDecoration: 'none' }}
             >
-              About The Church
-              <span>→</span>
+              About The Church →
             </Link>
-          </div>
 
+          </div>
         </div>
       </div>
     </section>
