@@ -3,6 +3,7 @@ import { getDepartments }    from '@/lib/actions/ministry'
 import Hero                  from '@/components/home/Hero'
 import { Pillars }           from '@/components/home/Pillars'
 import { CTABanner }         from '@/components/home/CTABanner'
+import { UpcomingEvents } from '@/components/home/UpcomingEvents'
 
 export default async function HomePage() {
   const [events, departments] = await Promise.all([
@@ -18,6 +19,7 @@ export default async function HomePage() {
     <main className="flex flex-col ">
       <Hero />
       <Pillars />
+      <UpcomingEvents events={upcoming} />
       <CTABanner />
     </main>
   )

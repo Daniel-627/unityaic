@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Calendar, MapPin, ArrowRight } from 'lucide-react'
+import { Calendar, MapPin } from 'lucide-react'
 
 type Event = {
   id:          string
@@ -11,12 +11,12 @@ type Event = {
   isPublished: boolean
 }
 
-const TYPE_COLOR: Record<string, string> = {
-  GENERAL:    'bg-gray-100    text-gray-600',
-  RALLY:      'bg-blue-100    text-blue-700',
-  AGM:        'bg-purple-100  text-purple-700',
-  CONFERENCE: 'bg-indigo-100  text-indigo-700',
-  SPECIAL:    'bg-amber-100   text-amber-700',
+const TYPE_COLOR: Record<string, { bg: string; color: string }> = {
+  GENERAL:    { bg: '#F3F4F6', color: '#4B5563' },
+  RALLY:      { bg: '#DBEAFE', color: '#1D4ED8' },
+  AGM:        { bg: '#EDE9FE', color: '#7C3AED' },
+  CONFERENCE: { bg: '#E0E7FF', color: '#4338CA' },
+  SPECIAL:    { bg: '#FEF3C7', color: '#D97706' },
 }
 
 function formatDate(d: string) {
@@ -25,80 +25,111 @@ function formatDate(d: string) {
   }).format(new Date(d))
 }
 
+const TOP_COLORS = ['#1B3A6B', '#C9A84C', '#166534']
+
 export function UpcomingEvents({ events }: { events: Event[] }) {
   if (!events.length) return null
 
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 bg-[#F7F8FC]">
+    <section style={{ padding: '80px 32px', backgroundColor: '#F7F8FC' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
-      <div className="max-w-6xl mx-auto">
-
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
-
-          <div>
-            <p className="text-accent text-xs tracking-[0.25em] uppercase font-semibold mb-3">
-              What's Coming
-            </p>
-
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-primary">
-              Upcoming Events
+        {/* Editorial heading */}
+        <div style={{ marginBottom: '64px' }}>
+          <p style={{ color: '#C9A84C', fontSize: '11px', fontWeight: '700', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '16px' }}>
+            What's Coming
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
+            <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: '800', color: '#1B3A6B', lineHeight: '1.05' }}>
+              Upcoming<br />Events.
             </h2>
+            <p style={{ fontSize: '1rem', color: '#6B7280', maxWidth: '380px', textAlign: 'right', lineHeight: '1.7' }}>
+              Join us for worship, fellowship, and ministry gatherings
+              happening across Unity AIC Church.
+            </p>
           </div>
-
-          <Link
-            href="/events"
-            className="flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-light"
-          >
-            View all events
-            <ArrowRight size={15} />
-          </Link>
-
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Cards grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+          {events.map((event, i) => {
+            const badge = TYPE_COLOR[event.type] ?? { bg: '#F3F4F6', color: '#4B5563' }
+            return (
+              <div
+                key={event.id}
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '16px',
+                  border: '1px solid #E5E7EB',
+                  overflow: 'hidden',
+                  transition: 'box-shadow 0.2s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.1)')}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
+              >
+                {/* Top color bar */}
+                <div style={{ height: '4px', backgroundColor: TOP_COLORS[i % TOP_COLORS.length] }} />
 
-          {events.map((event, i) => (
-            <div
-              key={event.id}
-              className="bg-white rounded-2xl border border-border overflow-hidden hover:shadow-lg transition"
-            >
+                <div style={{ padding: '24px' }}>
+                  {/* Badge */}
+                  <span style={{
+                    display: 'inline-flex',
+                    padding: '4px 12px',
+                    borderRadius: '999px',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    backgroundColor: badge.bg,
+                    color: badge.color,
+                    marginBottom: '16px',
+                  }}>
+                    {event.type}
+                  </span>
 
-              <div className={`h-1.5 ${
-                i === 0 ? "bg-primary" :
-                i === 1 ? "bg-accent" :
-                "bg-green-400"
-              }`} />
+                  {/* Title */}
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#1B3A6B', marginBottom: '16px', lineHeight: '1.4' }}>
+                    {event.title}
+                  </h3>
 
-              <div className="p-6 space-y-4">
-
-                <span className={`inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold ${TYPE_COLOR[event.type] ?? "bg-gray-100 text-gray-600"}`}>
-                  {event.type}
-                </span>
-
-                <h3 className="font-display text-lg font-bold text-primary">
-                  {event.title}
-                </h3>
-
-                <div className="space-y-2 text-sm text-muted">
-
-                  <div className="flex items-center gap-2">
-                    <Calendar size={14} className="text-accent" />
-                    {formatDate(event.startDate)}
+                  {/* Date */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                    <Calendar size={14} color="#C9A84C" />
+                    <span style={{ fontSize: '0.875rem', color: '#6B7280' }}>{formatDate(event.startDate)}</span>
                   </div>
 
+                  {/* Location */}
                   {event.location && (
-                    <div className="flex items-center gap-2">
-                      <MapPin size={14} className="text-accent" />
-                      {event.location}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <MapPin size={14} color="#C9A84C" />
+                      <span style={{ fontSize: '0.875rem', color: '#6B7280' }}>{event.location}</span>
                     </div>
                   )}
-
                 </div>
               </div>
-            </div>
-          ))}
-
+            )
+          })}
         </div>
+
+        {/* Bottom link */}
+        <div style={{ marginTop: '48px', display: 'flex', justifyContent: 'flex-end' }}>
+          <Link
+            href="/events"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              backgroundColor: '#1B3A6B',
+              color: '#ffffff',
+              padding: '14px 32px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: '700',
+              textDecoration: 'none',
+            }}
+          >
+            View All Events →
+          </Link>
+        </div>
+
       </div>
     </section>
   )
