@@ -1,13 +1,13 @@
 import React from 'react'
-import Link from 'next/link'
 import { FiCheckCircle } from 'react-icons/fi'
 
 export default function AboutPage() {
   return (
-    <div className="mt-40 py-16 px-8 bg-gray-50">
+    <main className="bg-gray-50">
+      <div className='p-20'/>
 
-      {/* Introduction */}
-      <div className="max-w-3xl mx-auto text-center mb-12">
+      {/* Top spacing + intro */}
+      <div className="max-w-3xl mx-auto text-center px-8 pt-16 pb-12">
         <p className="text-accent text-xs font-bold uppercase tracking-widest mb-3">
           Work of the Church
         </p>
@@ -33,13 +33,11 @@ export default function AboutPage() {
           We don't just invite you to attend — we invite you to belong. Come as you are,
           and grow into who God is calling you to be.
         </p>
-        
       </div>
 
-      {/* Pillars grid */}
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {/* Grid */}
+      <div className="max-w-6xl mx-auto px-8 pb-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 
-        {/* Worship */}
         <div>
           <h3 className="text-2xl font-semibold text-primary mb-4">Worship</h3>
           {[
@@ -55,7 +53,6 @@ export default function AboutPage() {
           ))}
         </div>
 
-        {/* Word */}
         <div>
           <h3 className="text-2xl font-semibold text-primary mb-4">Word</h3>
           {[
@@ -71,7 +68,6 @@ export default function AboutPage() {
           ))}
         </div>
 
-        {/* Community */}
         <div>
           <h3 className="text-2xl font-semibold text-primary mb-4">Community</h3>
           {[
@@ -88,6 +84,6 @@ export default function AboutPage() {
         </div>
 
       </div>
-    </div>
+    </main>
   )
 }
