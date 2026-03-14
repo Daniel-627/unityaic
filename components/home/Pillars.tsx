@@ -1,84 +1,109 @@
 import Link from 'next/link'
+import { FiCheckCircle } from 'react-icons/fi'
 
 export function Pillars() {
   return (
-    <section className="py-24 px-4 sm:px-8 md:px-16 bg-white">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="py-16 px-8 bg-gray-50">
 
-          {/* Left — image card */}
-          <div
-            className="relative rounded-2xl overflow-hidden shadow-xl"
-            style={{ height: '480px', backgroundImage: "url('/church.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}
+      {/* Introduction */}
+      <div className="max-w-3xl mx-auto text-center mb-12">
+        <p className="text-accent text-xs font-bold uppercase tracking-widest mb-3">
+          Work of the Church
+        </p>
+        <h2 className="text-4xl font-bold text-primary">
+          We Preach the Gospel in Every Service
+        </h2>
+        <p className="text-lg text-muted mt-4">
+          At Unity AIC we are committed to the faithful preaching of Scripture —
+          expository, Christ-centred, and practically applied to everyday life.
+          Every sermon is an encounter with the living Word.
+        </p>
+        <p className="text-lg text-muted mt-4">
+          Whether you are new to faith or have walked with God for years, you will find
+          a home here. We are a multigenerational congregation rooted in the Africa Inland
+          Church Kenya — a denomination built on the Word and sustained by prayer.
+        </p>
+        <p className="text-lg text-muted mt-4">
+          From Sunday worship to midweek Bible study, from Youth ministry to Women's
+          Fellowship, every programme at Unity AIC exists to help you grow deeper in your
+          faith and stronger in your relationships.
+        </p>
+        <p className="text-lg text-muted mt-4">
+          We don't just invite you to attend — we invite you to belong. Come as you are,
+          and grow into who God is calling you to be.
+        </p>
+        <div className="mt-8">
+          <Link
+            href="/about"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              backgroundColor: '#1B3A6B',
+              color: '#ffffff',
+              padding: '12px 28px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: '700',
+              textDecoration: 'none',
+            }}
           >
-            {/* Est. badge — top right corner */}
-            <div
-              className="absolute top-4 right-4 rounded-xl shadow-lg"
-              style={{ backgroundColor: '#C9A84C', padding: '12px 16px' }}
-            >
-              <p className="font-display text-2xl font-bold leading-none" style={{ color: '#1B3A6B' }}>1895</p>
-              <p className="text-xs font-semibold uppercase tracking-wider mt-1" style={{ color: '#1B3A6B', opacity: 0.7 }}>Est.</p>
-            </div>
-          </div>
-
-          {/* Right — text */}
-          <div className="flex flex-col gap-8">
-
-            <div>
-              <p className="text-accent text-xs font-bold uppercase tracking-widest mb-3">
-                Work of the Church
-              </p>
-              <h2 className="font-display text-3xl sm:text-4xl font-bold text-primary leading-tight mb-5">
-                We Preach the Gospel<br />in Every Service
-              </h2>
-              <p className="text-muted text-sm leading-relaxed pl-4 border-l-4 border-accent">
-                At Unity AIC we are committed to the faithful preaching of Scripture —
-                expository, Christ-centred, and practically applied to everyday life.
-                Every sermon is an encounter with the living Word.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-7">
-              {[
-                { num: '01', title: 'Worship',   text: 'We gather every Sunday to encounter God through music, prayer, and preaching.' },
-                { num: '02', title: 'Word',       text: 'Scripture is our foundation. We teach it carefully and let it shape every decision.' },
-                { num: '03', title: 'Community',  text: "From Youth to Men's Fellowship — we build real relationships for every season of life." },
-              ].map(p => (
-                <div key={p.num} className="flex items-start gap-4">
-                  <span className="font-display text-2xl font-bold text-border leading-none shrink-0 mt-1">
-                    {p.num}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-base font-bold text-primary mb-1">{p.title}</h3>
-                    <p className="text-muted text-sm leading-relaxed">{p.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Button — fully inline styled, no Tailwind */}
-            <div>
-              <Link
-                href="/about"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  backgroundColor: '#1B3A6B',
-                  color: '#ffffff',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  textDecoration: 'none',
-                }}
-              >
-                About The Church →
-              </Link>
-            </div>
-
-          </div>
+            About The Church →
+          </Link>
         </div>
+      </div>
+
+      {/* Pillars grid */}
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+        {/* Worship */}
+        <div>
+          <h3 className="text-2xl font-semibold text-primary mb-4">Worship</h3>
+          {[
+            'Sunday services at 8:00 AM and 10:30 AM',
+            'Spirit-led, Scripture-centred preaching',
+            'Congregational singing and corporate prayer',
+            'Special services on Easter, Christmas, and national days',
+          ].map((item, i) => (
+            <div key={i} className="flex items-start p-4 mb-4">
+              <FiCheckCircle className="text-accent mr-2 mt-1 shrink-0" size={18} />
+              <p className="text-base text-gray-800">{item}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Word */}
+        <div>
+          <h3 className="text-2xl font-semibold text-primary mb-4">Word</h3>
+          {[
+            'Expository preaching through books of the Bible',
+            'Wednesday evening Bible study',
+            'Small group discipleship within ministries',
+            'Scripture memory and devotional resources',
+          ].map((item, i) => (
+            <div key={i} className="flex items-start p-4 mb-4">
+              <FiCheckCircle className="text-accent mr-2 mt-1 shrink-0" size={18} />
+              <p className="text-base text-gray-800">{item}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Community */}
+        <div>
+          <h3 className="text-2xl font-semibold text-primary mb-4">Community</h3>
+          {[
+            'Youth ministry — JOY (Jesus Our Youth)',
+            "Women's Fellowship with AGMs and welfare",
+            "Men's Fellowship and leadership programmes",
+            'Sunday School and Cadet / Star for children',
+          ].map((item, i) => (
+            <div key={i} className="flex items-start p-4 mb-4">
+              <FiCheckCircle className="text-accent mr-2 mt-1 shrink-0" size={18} />
+              <p className="text-base text-gray-800">{item}</p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   )
