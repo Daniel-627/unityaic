@@ -11,7 +11,7 @@ export function Pillars() {
           <p style={{ color: '#C9A84C', fontSize: '11px', fontWeight: '700', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '16px' }}>
             Work of the Church
           </p>
-          <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: '800', color: '#1B3A6B', lineHeight: '1.05', maxWidth: '700px' }}>
+          <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: '600', color: '#1B3A6B', lineHeight: '1.05', maxWidth: '700px' }}>
             We Preach<br />the Gospel<br />in Every Service.
           </h2>
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '-40px' }}>

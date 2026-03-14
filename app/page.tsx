@@ -1,3 +1,5 @@
+'use client '
+
 import { getEvents }         from '@/lib/actions/events'
 import { getDepartments }    from '@/lib/actions/ministry'
 import Hero                  from '@/components/home/Hero'
@@ -14,6 +16,8 @@ export default async function HomePage() {
   const upcoming = events
     .filter(e => e.isPublished && new Date(e.startDate) >= new Date())
     .slice(0, 3)
+
+
 
   return (
     <main className="flex flex-col ">

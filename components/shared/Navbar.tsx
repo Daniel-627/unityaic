@@ -11,7 +11,7 @@ const NAV_LINKS = [
   { label: 'Home',       href: '/'           },
   { label: 'About',      href: '/about'      },
   { label: 'Events',     href: '/events'     },
-  { label: 'Ministries', href: '/ministries' },
+  { label: 'Ministries', href: '/ministry' },
   { label: 'Gallery',    href: '/gallery'    },
   { label: 'Contact',    href: '/contact'    },
 ]

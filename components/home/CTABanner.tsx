@@ -10,15 +10,15 @@ export function CTABanner() {
         <p className="text-accent text-xs font-bold uppercase tracking-widest mb-3">
           You Are Welcome Here
         </p>
-        <h2 className="text-4xl font-bold text-white">
+        <h2 className="text-4xl font-bold text-white pb-4">
           Become Part of Our Family
         </h2>
-        <p className="text-lg text-white/70 mt-4">
+        <p className="text-lg text-white/50 mt-4">
           Whether you are new to faith or searching for a church home,
           Unity AIC welcomes you. We are a community that walks with you
           through every season of life.
         </p>
-        <p className="text-lg text-white/70 mt-4">
+        <p className="text-lg text-white/40 mt-4">
           From the moment you walk through our doors, you will find people
           who genuinely care — ready to worship with you, pray with you,
           and grow with you in faith.

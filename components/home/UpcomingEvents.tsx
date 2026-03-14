@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { Calendar, MapPin } from 'lucide-react'
 
@@ -40,7 +42,7 @@ export function UpcomingEvents({ events }: { events: Event[] }) {
             What's Coming
           </p>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
-            <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: '800', color: '#1B3A6B', lineHeight: '1.05' }}>
+            <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: '500', color: '#1B3A6B', lineHeight: '1.05' }}>
               Upcoming<br />Events.
             </h2>
             <p style={{ fontSize: '1rem', color: '#6B7280', maxWidth: '380px', textAlign: 'right', lineHeight: '1.7' }}>
