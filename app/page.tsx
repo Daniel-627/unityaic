@@ -15,7 +15,7 @@ export default async function HomePage() {
     .slice(0, 3)
 
   return (
-    <main className="flex flex-col gap-16">
+    <main className="flex flex-col ">
       <Hero />
       <Pillars />
       <CTABanner />
