@@ -73,6 +73,7 @@ export default function GalleryDashboard() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '13px', fontWeight: '600', color: '#374151' }}>Title *</label>
             <input
+                title='Enter a descriptive title for the photo'
               name="title" required
               placeholder="e.g. Sunday Service March 2026"
               style={{ padding: '10px 14px', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
@@ -108,7 +109,7 @@ export default function GalleryDashboard() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '13px', fontWeight: '600', color: '#374151' }}>Date Taken</label>
             <input
-              title='Select the date when the photo was taken'
+              title='Date when the photo was taken'
               name="takenAt" type="date"
               style={{ padding: '10px 14px', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
             />
@@ -119,7 +120,7 @@ export default function GalleryDashboard() {
         <div style={{ marginBottom: '20px' }}>
           <label style={{ fontSize: '13px', fontWeight: '600', color: '#374151', display: 'block', marginBottom: '6px' }}>Image *</label>
           <input
-            title="Select an image file to upload"
+            title='file input'
             name="file" type="file" accept="image/*" required
             onChange={handleFileChange}
             style={{ padding: '10px 14px', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '14px', width: '100%' }}
