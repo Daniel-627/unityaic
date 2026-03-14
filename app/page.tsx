@@ -2,8 +2,6 @@ import { getEvents }         from '@/lib/actions/events'
 import { getDepartments }    from '@/lib/actions/ministry'
 import Hero                  from '@/components/home/Hero'
 import { Pillars }           from '@/components/home/Pillars'
-import { UpcomingEvents }    from '@/components/home/UpcomingEvents'
-import { Ministries }        from '@/components/home/Ministries'
 import { CTABanner }         from '@/components/home/CTABanner'
 
 export default async function HomePage() {
@@ -17,11 +15,9 @@ export default async function HomePage() {
     .slice(0, 3)
 
   return (
-    <main>
+    <main className="flex flex-col gap-16">
       <Hero />
       <Pillars />
-      <UpcomingEvents events={upcoming} />
-      <Ministries departments={departments} />
       <CTABanner />
     </main>
   )

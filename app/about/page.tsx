@@ -1,135 +1,93 @@
-import Link  from 'next/link'
-import Image from 'next/image'
-import { ArrowRight, Target, Eye, Heart } from 'lucide-react'
+import React from 'react'
+import Link from 'next/link'
+import { FiCheckCircle } from 'react-icons/fi'
 
 export default function AboutPage() {
   return (
-    <main>
+    <div className="mt-40 py-16 px-8 bg-gray-50">
 
-      {/* Hero */}
-      <section className="bg-primary py-20 px-4 sm:px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-accent" />
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="h-px w-8 bg-accent" />
-            <span className="text-accent text-xs font-semibold uppercase tracking-[0.2em]">Our Story</span>
-            <div className="h-px w-8 bg-accent" />
-          </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white">About Unity AIC</h1>
-          <p className="text-white/70 text-base sm:text-lg max-w-2xl leading-relaxed">
-            A church built on the foundation of God's Word, serving the community of Nairobi and beyond.
-          </p>
-        </div>
-      </section>
+      {/* Introduction */}
+      <div className="max-w-3xl mx-auto text-center mb-12">
+        <p className="text-accent text-xs font-bold uppercase tracking-widest mb-3">
+          Work of the Church
+        </p>
+        <h2 className="text-4xl font-bold text-primary">
+          We Preach the Gospel in Every Service
+        </h2>
+        <p className="text-lg text-muted mt-4">
+          At Unity AIC we are committed to the faithful preaching of Scripture —
+          expository, Christ-centred, and practically applied to everyday life.
+          Every sermon is an encounter with the living Word.
+        </p>
+        <p className="text-lg text-muted mt-4">
+          Whether you are new to faith or have walked with God for years, you will find
+          a home here. We are a multigenerational congregation rooted in the Africa Inland
+          Church Kenya — a denomination built on the Word and sustained by prayer.
+        </p>
+        <p className="text-lg text-muted mt-4">
+          From Sunday worship to midweek Bible study, from Youth ministry to Women's
+          Fellowship, every programme at Unity AIC exists to help you grow deeper in your
+          faith and stronger in your relationships.
+        </p>
+        <p className="text-lg text-muted mt-4">
+          We don't just invite you to attend — we invite you to belong. Come as you are,
+          and grow into who God is calling you to be.
+        </p>
+        
+      </div>
 
-      {/* History */}
-      <section className="py-20 px-4 sm:px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="flex flex-col gap-6">
-              <div>
-                <p className="text-accent text-xs font-semibold uppercase tracking-[0.2em] mb-3">Our History</p>
-                <h2 className="font-display text-3xl font-bold text-primary mb-4">Rooted in Faith</h2>
-              </div>
-              <div className="flex flex-col gap-4 text-muted text-sm leading-relaxed">
-                <p>
-                  Unity AIC Church is a congregation of the Africa Inland Church Kenya,
-                  one of the largest evangelical denominations in East Africa with roots
-                  going back to 1895.
-                </p>
-                <p>
-                  Our local congregation has grown over the decades into a vibrant community
-                  of believers committed to worship, discipleship, and service. We are part
-                  of the CED (Christian Education Department) structure of AIC Kenya.
-                </p>
-                <p>
-                  Today we continue that mission — planting the Word of God in hearts
-                  and seeing lives transformed by the grace of Jesus Christ.
-                </p>
-              </div>
+      {/* Pillars grid */}
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+        {/* Worship */}
+        <div>
+          <h3 className="text-2xl font-semibold text-primary mb-4">Worship</h3>
+          {[
+            'Sunday services at 8:00 AM and 10:30 AM',
+            'Spirit-led, Scripture-centred preaching',
+            'Congregational singing and corporate prayer',
+            'Special services on Easter, Christmas, and national days',
+          ].map((item, i) => (
+            <div key={i} className="flex items-start p-4 mb-4">
+              <FiCheckCircle className="text-accent mr-2 mt-1 shrink-0" size={18} />
+              <p className="text-base text-gray-800">{item}</p>
             </div>
-            <div className="w-full aspect-square rounded-2xl bg-primary/5 border border-border flex items-center justify-center">
-              <div className="flex flex-col items-center gap-3 text-center p-8">
-                <Image src="/aiclogo.png" alt="AIC Logo" width={80} height={80} className="object-contain opacity-60" />
-                <p className="font-display text-2xl font-bold text-primary/40">Est. 1895</p>
-                <p className="text-xs text-muted">Africa Inland Church Kenya</p>
-              </div>
+          ))}
+        </div>
+
+        {/* Word */}
+        <div>
+          <h3 className="text-2xl font-semibold text-primary mb-4">Word</h3>
+          {[
+            'Expository preaching through books of the Bible',
+            'Wednesday evening Bible study',
+            'Small group discipleship within ministries',
+            'Scripture memory and devotional resources',
+          ].map((item, i) => (
+            <div key={i} className="flex items-start p-4 mb-4">
+              <FiCheckCircle className="text-accent mr-2 mt-1 shrink-0" size={18} />
+              <p className="text-base text-gray-800">{item}</p>
             </div>
-          </div>
+          ))}
         </div>
-      </section>
 
-      {/* Vision & Mission */}
-      <section className="py-20 px-4 sm:px-6 bg-[#F7F8FC]">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-accent text-xs font-semibold uppercase tracking-[0.2em] mb-3">Direction</p>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-primary">Vision & Mission</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                icon:  Eye,
-                title: 'Our Vision',
-                color: 'text-blue-600',
-                bg:    'bg-blue-50',
-                text:  'To be a Christ-centred church that transforms lives, families, and communities through the power of the Gospel.',
-              },
-              {
-                icon:  Target,
-                title: 'Our Mission',
-                color: 'text-amber-600',
-                bg:    'bg-amber-50',
-                text:  'To make disciples of Jesus Christ through evangelism, discipleship, fellowship, worship, and service.',
-              },
-              {
-                icon:  Heart,
-                title: 'Our Values',
-                color: 'text-rose-600',
-                bg:    'bg-rose-50',
-                text:  'Faith in Scripture, love for one another, integrity in all things, and a heart for the lost and the vulnerable.',
-              },
-            ].map(item => {
-              const Icon = item.icon
-              return (
-                <div key={item.title} className="bg-white rounded-2xl border border-border p-7 flex flex-col gap-4">
-                  <div className={`w-11 h-11 rounded-xl ${item.bg} flex items-center justify-center`}>
-                    <Icon size={20} className={item.color} />
-                  </div>
-                  <h3 className="font-display text-lg font-bold text-primary">{item.title}</h3>
-                  <p className="text-sm text-muted leading-relaxed">{item.text}</p>
-                </div>
-              )
-            })}
-          </div>
+        {/* Community */}
+        <div>
+          <h3 className="text-2xl font-semibold text-primary mb-4">Community</h3>
+          {[
+            'Youth ministry — JOY (Jesus Our Youth)',
+            "Women's Fellowship with AGMs and welfare",
+            "Men's Fellowship and leadership programmes",
+            'Sunday School and Cadet / Star for children',
+          ].map((item, i) => (
+            <div key={i} className="flex items-start p-4 mb-4">
+              <FiCheckCircle className="text-accent mr-2 mt-1 shrink-0" size={18} />
+              <p className="text-base text-gray-800">{item}</p>
+            </div>
+          ))}
         </div>
-      </section>
 
-      {/* CTA */}
-      <section className="py-16 px-4 sm:px-6 bg-white border-t border-border">
-        <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-5">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-primary">
-            Come worship with us
-          </h2>
-          <p className="text-muted text-sm">
-            We meet every Sunday at 8:00 AM and 10:30 AM. You are welcome.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link
-              href="/register"
-              className="px-6 py-3 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-light transition-colors no-underline inline-flex items-center gap-2"
-            >
-              Join Us <ArrowRight size={15} />
-            </Link>
-            <Link
-              href="/contact"
-              className="px-6 py-3 rounded-xl border border-border text-sm font-medium text-muted hover:bg-sunken transition-colors no-underline"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+      </div>
+    </div>
   )
 }
