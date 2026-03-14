@@ -3,11 +3,10 @@ import { FiCheckCircle } from 'react-icons/fi'
 
 export default function AboutPage() {
   return (
-    <main className="bg-gray-50">
-      <div className='p-20'/>
+    <main className="bg-gray-50" style={{ paddingTop: '64px' }}>
 
-      {/* Top spacing + intro */}
-      <div className="max-w-3xl mx-auto text-center px-8 pt-16 pb-12">
+      {/* Intro */}
+      <div className="max-w-3xl mx-auto text-center px-8 pb-12">
         <p className="text-accent text-xs font-bold uppercase tracking-widest mb-3">
           Work of the Church
         </p>
