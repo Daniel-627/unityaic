@@ -44,7 +44,7 @@ export async function uploadGalleryImage(formData: FormData) {
     })
 
     revalidatePath('/gallery')
-    revalidatePath('/dashboard/gallery')
+    revalidatePath('/dashboard/admin-gallery')
     return { success: true }
 
   } catch (err) {
@@ -57,7 +57,7 @@ export async function deleteGalleryImage(id: string) {
   try {
     await writeClient.delete(id)
     revalidatePath('/gallery')
-    revalidatePath('/dashboard/gallery')
+    revalidatePath('/dashboard/admin-gallery')
     return { success: true }
   } catch (err) {
     console.error('[deleteGalleryImage]', err)

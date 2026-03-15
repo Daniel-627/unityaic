@@ -1,164 +1,129 @@
-'use client'
+import { client } from '@/sanity/lib/client'
+import { urlFor } from '@/sanity/lib/image'
 
-import { useState, useRef, useTransition } from 'react'
-import { uploadGalleryImage, deleteGalleryImage, getGalleryItems } from '@/lib/actions/gallery'
-import { Trash2, Upload, ImagePlus } from 'lucide-react'
+const CATEGORY_LABELS: Record<string, string> = {
+  sunday_service:    'Sunday Service',
+  event:             'Event',
+  youth:             'Youth (JOY)',
+  womens_fellowship: "Women's Fellowship",
+  mens_fellowship:   "Men's Fellowship",
+  sunday_school:     'Sunday School',
+  cadet_star:        'Cadet / Star',
+  community:         'Community',
+  general:           'General',
+}
 
-const CATEGORIES = [
-  { label: 'Sunday Service',     value: 'sunday_service'    },
-  { label: 'Event',              value: 'event'             },
-  { label: 'Youth (JOY)',        value: 'youth'             },
-  { label: "Women's Fellowship", value: 'womens_fellowship' },
-  { label: "Men's Fellowship",   value: 'mens_fellowship'   },
-  { label: 'Sunday School',      value: 'sunday_school'     },
-  { label: 'Cadet / Star',       value: 'cadet_star'        },
-  { label: 'Community',          value: 'community'         },
-  { label: 'General',            value: 'general'           },
-]
+type GalleryItem = {
+  _id:      string
+  title:    string
+  caption:  string | null
+  category: string
+  takenAt:  string | null
+  image:    any
+}
 
-export default function GalleryDashboard() {
-  const [isPending, startTransition] = useTransition()
-  const [preview, setPreview]   = useState<string | null>(null)
-  const [success, setSuccess]   = useState(false)
-  const [error, setError]       = useState<string | null>(null)
-  const formRef = useRef<HTMLFormElement>(null)
+async function getGallery(): Promise<GalleryItem[]> {
+  return client.fetch(`
+    *[_type == "galleryItem"] | order(takenAt desc) {
+      _id, title, caption, category, takenAt, image
+    }
+  `)
+}
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (file) setPreview(URL.createObjectURL(file))
-  }
+export default async function GalleryPage() {
+  const items = await getGallery()
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    setError(null)
-    setSuccess(false)
-
-    startTransition(async () => {
-      const result = await uploadGalleryImage(formData)
-      if (result.success) {
-        setSuccess(true)
-        setPreview(null)
-        formRef.current?.reset()
-      } else {
-        setError(result.error ?? 'Upload failed')
-      }
-    })
-  }
+  // Group by category
+  const grouped = items.reduce<Record<string, GalleryItem[]>>((acc, item) => {
+    const key = item.category ?? 'general'
+    if (!acc[key]) acc[key] = []
+    acc[key].push(item)
+    return acc
+  }, {})
 
   return (
-    <div style={{ padding: '40px 32px', maxWidth: '800px', margin: '0 auto' }}>
+    <main>
 
-      <div style={{ marginBottom: '40px' }}>
-        <p style={{ color: '#C9A84C', fontSize: '11px', fontWeight: '700', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '8px' }}>
-          Dashboard
-        </p>
-        <h1 style={{ fontSize: '2rem', fontWeight: '800', color: '#1B3A6B' }}>
-          Gallery Management
-        </h1>
-        <p style={{ color: '#6B7280', marginTop: '8px' }}>
-          Upload photos directly to the public gallery.
-        </p>
+      {/* Page header */}
+      <div style={{ backgroundColor: '#1B3A6B', padding: '80px 32px 48px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <p style={{ color: '#C9A84C', fontSize: '11px', fontWeight: '700', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '16px' }}>
+            Our Moments
+          </p>
+          <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: '800', color: '#ffffff', lineHeight: '1.05' }}>
+            Gallery.
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', marginTop: '16px', maxWidth: '480px', lineHeight: '1.7' }}>
+            A glimpse into the life of Unity AIC Church — worship, fellowship, and ministry in action.
+          </p>
+        </div>
       </div>
 
-      {/* Upload form */}
-      <form ref={formRef} onSubmit={handleSubmit} style={{ backgroundColor: '#ffffff', border: '1px solid #E5E7EB', borderRadius: '12px', padding: '32px', marginBottom: '40px' }}>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#1B3A6B', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <ImagePlus size={18} /> Upload New Photo
-        </h2>
+      {/* Content */}
+      <div style={{ padding: '64px 32px', backgroundColor: '#F7F8FC' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+          {items.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '80px 0', color: '#6B7280' }}>
+              <p style={{ fontSize: '1.1rem' }}>No gallery items yet. Add some in the Sanity Studio.</p>
+            </div>
+          ) : (
+            Object.entries(grouped).map(([category, photos]) => (
+              <div key={category} style={{ marginBottom: '64px' }}>
 
-          {/* Title */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '600', color: '#374151' }}>Title *</label>
-            <input
-              name="title" required
-              placeholder="e.g. Sunday Service March 2026"
-              style={{ padding: '10px 14px', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
-            />
-          </div>
+                {/* Category heading */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1B3A6B' }}>
+                    {CATEGORY_LABELS[category] ?? category}
+                  </h2>
+                  <span style={{ fontSize: '12px', color: '#6B7280', backgroundColor: '#E5E7EB', padding: '2px 10px', borderRadius: '999px' }}>
+                    {photos.length} photo{photos.length !== 1 ? 's' : ''}
+                  </span>
+                  <div style={{ flex: 1, height: '1px', backgroundColor: '#E5E7EB' }} />
+                </div>
 
-          {/* Category */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '600', color: '#374151' }}>Category *</label>
-            <select
-              title='Select the category that best describes the photo'
-              name="category" required
-              style={{ padding: '10px 14px', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '14px', outline: 'none', backgroundColor: '#fff' }}
-            >
-              {CATEGORIES.map(c => (
-                <option key={c.value} value={c.value}>{c.label}</option>
-              ))}
-            </select>
-          </div>
+                {/* Photo grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+                  {photos.map(photo => (
+                    <div
+                      key={photo._id}
+                      style={{ borderRadius: '12px', overflow: 'hidden', backgroundColor: '#ffffff', border: '1px solid #E5E7EB' }}
+                    >
+                      <div style={{ aspectRatio: '4/3', overflow: 'hidden' }}>
+                        <img
+                          src={urlFor(photo.image).width(600).height(450).fit('crop').url()}
+                          alt={photo.image?.alt ?? photo.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        />
+                      </div>
+                      {(photo.title || photo.caption) && (
+                        <div style={{ padding: '12px 16px' }}>
+                          {photo.title && (
+                            <p style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1B3A6B', marginBottom: '2px' }}>
+                              {photo.title}
+                            </p>
+                          )}
+                          {photo.caption && (
+                            <p style={{ fontSize: '0.8rem', color: '#6B7280' }}>{photo.caption}</p>
+                          )}
+                          {photo.takenAt && (
+                            <p style={{ fontSize: '0.75rem', color: '#9CA3AF', marginTop: '4px' }}>
+                              {new Intl.DateTimeFormat('en-KE', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(photo.takenAt))}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
 
-          {/* Caption */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '600', color: '#374151' }}>Caption</label>
-            <input
-              title='A short description that will appear below the photo in the gallery'
-              name="caption"
-              placeholder="Optional short description"
-              style={{ padding: '10px 14px', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
-            />
-          </div>
+              </div>
+            ))
+          )}
 
-          {/* Date */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '600', color: '#374151' }}>Date Taken</label>
-            <input
-              title='Select the date when the photo was taken'
-              name="takenAt" type="date"
-              style={{ padding: '10px 14px', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '14px', outline: 'none' }}
-            />
-          </div>
         </div>
+      </div>
 
-        {/* File input */}
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ fontSize: '13px', fontWeight: '600', color: '#374151', display: 'block', marginBottom: '6px' }}>Image *</label>
-          <input
-            title="Select an image file to upload"
-            name="file" type="file" accept="image/*" required
-            onChange={handleFileChange}
-            style={{ padding: '10px 14px', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '14px', width: '100%' }}
-          />
-        </div>
-
-        {/* Preview */}
-        {preview && (
-          <div style={{ marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', maxHeight: '240px' }}>
-            <img src={preview} alt="Preview" style={{ width: '100%', height: '240px', objectFit: 'cover' }} />
-          </div>
-        )}
-
-        {/* Feedback */}
-        {success && (
-          <div style={{ padding: '12px 16px', backgroundColor: '#D1FAE5', color: '#065F46', borderRadius: '8px', fontSize: '14px', marginBottom: '16px' }}>
-            ✓ Photo uploaded successfully.
-          </div>
-        )}
-        {error && (
-          <div style={{ padding: '12px 16px', backgroundColor: '#FEE2E2', color: '#991B1B', borderRadius: '8px', fontSize: '14px', marginBottom: '16px' }}>
-            {error}
-          </div>
-        )}
-
-        <button
-          type="submit" disabled={isPending}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '8px',
-            backgroundColor: isPending ? '#9CA3AF' : '#1B3A6B',
-            color: '#ffffff', padding: '12px 28px', borderRadius: '8px',
-            fontSize: '14px', fontWeight: '700', border: 'none', cursor: isPending ? 'not-allowed' : 'pointer',
-          }}
-        >
-          <Upload size={16} />
-          {isPending ? 'Uploading...' : 'Upload Photo'}
-        </button>
-      </form>
-
-    </div>
+    </main>
   )
 }
