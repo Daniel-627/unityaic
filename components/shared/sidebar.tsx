@@ -22,7 +22,7 @@ const NAV_ITEMS = [
       { label: 'Services',      href: '/dashboard/services',      icon: '📅' },
       { label: 'Events',        href: '/dashboard/events',        icon: '🗓' },
       { label: 'Attendance',    href: '/dashboard/attendance',    icon: '✓'  },
-      { label: 'Gallery',       href: '/dashboard/admin-gallery',       icon: '🖼'  },
+      { label: 'Gallery',       href: '/admin-gallery',       icon: '🖼'  },
     ],
   },
   {
