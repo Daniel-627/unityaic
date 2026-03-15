@@ -65,7 +65,7 @@ export default function GalleryDashboard() {
       {/* Link to manage page */}
 <div style={{ marginBottom: '32px' }}>
   <Link
-    href="/dashboard/admin-gallery/manage"
+    href="/admin-gallery/manage"
     style={{
       display: 'inline-flex', alignItems: 'center', gap: '8px',
       backgroundColor: '#F3F4F6', color: '#1B3A6B',

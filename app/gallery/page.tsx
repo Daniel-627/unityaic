@@ -83,39 +83,20 @@ export default async function GalleryPage() {
                 </div>
 
                 {/* Photo grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
-                  {photos.map(photo => (
-                    <div
-                      key={photo._id}
-                      style={{ borderRadius: '12px', overflow: 'hidden', backgroundColor: '#ffffff', border: '1px solid #E5E7EB' }}
-                    >
-                      <div style={{ aspectRatio: '4/3', overflow: 'hidden' }}>
-                        <img
-                          src={urlFor(photo.image).width(600).height(450).fit('crop').url()}
-                          alt={photo.image?.alt ?? photo.title}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                        />
-                      </div>
-                      {(photo.title || photo.caption) && (
-                        <div style={{ padding: '12px 16px' }}>
-                          {photo.title && (
-                            <p style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1B3A6B', marginBottom: '2px' }}>
-                              {photo.title}
-                            </p>
-                          )}
-                          {photo.caption && (
-                            <p style={{ fontSize: '0.8rem', color: '#6B7280' }}>{photo.caption}</p>
-                          )}
-                          {photo.takenAt && (
-                            <p style={{ fontSize: '0.75rem', color: '#9CA3AF', marginTop: '4px' }}>
-                              {new Intl.DateTimeFormat('en-KE', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(photo.takenAt))}
-                            </p>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+  {photos.map(photo => (
+    <div
+      key={photo._id}
+      style={{ borderRadius: '12px', overflow: 'hidden', aspectRatio: '4/3' }}
+    >
+      <img
+        src={urlFor(photo.image).width(600).height(450).fit('crop').url()}
+        alt={photo.image?.alt ?? photo.title}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+      />
+    </div>
+  ))}
+</div>
 
               </div>
             ))
