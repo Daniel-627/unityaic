@@ -3,6 +3,7 @@
 import { useState, useRef, useTransition } from 'react'
 import { uploadGalleryImage, deleteGalleryImage, getGalleryItems } from '@/lib/actions/gallery'
 import { Trash2, Upload, ImagePlus } from 'lucide-react'
+import Link from 'next/link'
 
 const CATEGORIES = [
   { label: 'Sunday Service',     value: 'sunday_service'    },
@@ -60,6 +61,22 @@ export default function GalleryDashboard() {
           Upload photos directly to the public gallery.
         </p>
       </div>
+
+      {/* Link to manage page */}
+<div style={{ marginBottom: '32px' }}>
+  <Link
+    href="/dashboard/admin-gallery/manage"
+    style={{
+      display: 'inline-flex', alignItems: 'center', gap: '8px',
+      backgroundColor: '#F3F4F6', color: '#1B3A6B',
+      padding: '10px 20px', borderRadius: '8px',
+      fontSize: '13px', fontWeight: '600', textDecoration: 'none',
+      border: '1px solid #E5E7EB',
+    }}
+  >
+    🖼 Manage Uploaded Photos →
+  </Link>
+</div>
 
       {/* Upload form */}
       <form ref={formRef} onSubmit={handleSubmit} style={{ backgroundColor: '#ffffff', border: '1px solid #E5E7EB', borderRadius: '12px', padding: '32px', marginBottom: '40px' }}>

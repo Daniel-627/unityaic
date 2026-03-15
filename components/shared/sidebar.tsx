@@ -17,34 +17,34 @@ const NAV_ITEMS = [
   {
     group: 'Ministry',
     items: [
-      { label: 'Members',       href: '/dashboard/members',       icon: '👤' },
-      { label: 'Departments',   href: '/dashboard/ministry',      icon: '⛪' },
-      { label: 'Services',      href: '/dashboard/services',      icon: '📅' },
-      { label: 'Events',        href: '/dashboard/events',        icon: '🗓' },
-      { label: 'Attendance',    href: '/dashboard/attendance',    icon: '✓'  },
+      { label: 'Members',       href: '/members',       icon: '👤' },
+      { label: 'Departments',   href: '/ministry',      icon: '⛪' },
+      { label: 'Services',      href: '/services',      icon: '📅' },
+      { label: 'Events',        href: '/events',        icon: '🗓' },
+      { label: 'Attendance',    href: '/attendance',    icon: '✓'  },
       { label: 'Gallery',       href: '/admin-gallery',       icon: '🖼'  },
     ],
   },
   {
     group: 'Finance',
     items: [
-      { label: 'Contributions', href: '/dashboard/contributions', icon: '💰' },
-      { label: 'Receipts',      href: '/dashboard/receipts',      icon: '🧾' },
-      { label: 'Expenses',      href: '/dashboard/expenses',      icon: '📤' },
-      { label: 'Funds',         href: '/dashboard/funds',         icon: '🏦' },
-      { label: 'Remittances',   href: '/dashboard/remittances',   icon: '📨' },
+      { label: 'Contributions', href: '/contributions', icon: '💰' },
+      { label: 'Receipts',      href: '/receipts',      icon: '🧾' },
+      { label: 'Expenses',      href: '/expenses',      icon: '📤' },
+      { label: 'Funds',         href: '/funds',         icon: '🏦' },
+      { label: 'Remittances',   href: '/remittances',   icon: '📨' },
     ],
   },
   {
     group: 'Reports',
     items: [
-      { label: 'All Reports',   href: '/dashboard/reports',       icon: '📊' },
+      { label: 'All Reports',   href: '/reports',       icon: '📊' },
     ],
   },
   {
     group: 'Settings',
     items: [
-      { label: 'Settings',      href: '/dashboard/settings',      icon: '⚙'  },
+      { label: 'Settings',      href: '/settings',      icon: '⚙'  },
     ],
   },
 ]

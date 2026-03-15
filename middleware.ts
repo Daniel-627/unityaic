@@ -10,6 +10,7 @@ const publicRoutes = [
 const roleRoutes: Record<string, string[]> = {
   "/studio":          ["ADMIN"],
   "/settings":        ["ADMIN"],
+  "/admin-gallery":   ["ADMIN"],
   "/members":         ["ADMIN", "FINANCE_OFFICER", "DEPT_HEAD"],
   "/ministry":        ["ADMIN", "DEPT_HEAD"],
   "/contributions":   ["ADMIN", "FINANCE_OFFICER"],
