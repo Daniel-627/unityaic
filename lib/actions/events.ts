@@ -114,7 +114,7 @@ export async function createEvent(data: unknown, createdBy: string) {
 
   const { title, type, description, departmentId, startDate, endDate, location, capacity, isPublished } = parsed.data
 
-  await db.insert(events).values({
+  const [created] = await db.insert(events).values({
     title,
     type,
     description:  description  ?? null,
@@ -125,9 +125,9 @@ export async function createEvent(data: unknown, createdBy: string) {
     capacity:     capacity     ?? null,
     isPublished,
     createdBy,
-  })
+  }).returning({ id: events.id })
 
-  return { success: true }
+  return { success: true, id: created.id }
 }
 
 export async function updateEvent(data: unknown) {

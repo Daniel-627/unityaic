@@ -12,6 +12,10 @@ import {
 } from '@/lib/actions/events'
 import { EventMedia } from '@/components/events/EventMedia'
 
+import { useSearchParams } from 'next/navigation'
+
+
+
 type Registration = {
   id:           string
   memberId:     string
@@ -55,7 +59,10 @@ export function EventDetail({ event }: { event: Event }) {
   const [selectedMember, setSelectedMember] = useState('')
   const [error,          setError]          = useState('')
   const [success,        setSuccess]        = useState('')
-  const [activeTab,      setActiveTab]      = useState<'details' | 'media'>('details')
+  const searchParams = useSearchParams()
+  const [activeTab, setActiveTab] = useState<'details' | 'media'>(
+    searchParams.get('tab') === 'media' ? 'media' : 'details'
+  )
 
   const [form, setForm] = useState({
     title:        event.title,

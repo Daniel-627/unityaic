@@ -44,21 +44,19 @@ export function EventsList({ events, userId }: { events: Event[]; userId: string
     capacity: '', isPublished: false,
   })
 
-  function handleCreate(e: React.FormEvent) {
-    e.preventDefault()
-    setError('')
-    startTransition(async () => {
-      const res = await createEvent({
-        ...form,
-        capacity: form.capacity ? Number(form.capacity) : undefined,
-        endDate:  form.endDate  || undefined,
-      }, userId)
-      if (!res.success) { setError(res.error ?? 'Failed.'); return }
-      setShowForm(false)
-      setForm({ title: '', type: 'GENERAL', description: '', startDate: '', endDate: '', location: '', capacity: '', isPublished: false })
-      router.refresh()
-    })
-  }
+function handleCreate(e: React.FormEvent) {
+  e.preventDefault()
+  setError('')
+  startTransition(async () => {
+    const res = await createEvent({
+      ...form,
+      capacity: form.capacity ? Number(form.capacity) : undefined,
+      endDate:  form.endDate  || undefined,
+    }, userId)
+    if (!res.success) { setError(res.error ?? 'Failed.'); return }
+    router.push(`/admin-events/${res.id}?tab=media`)
+  })
+}
 
   function handleDelete(id: string, title: string) {
     if (!confirm(`Delete "${title}"?`)) return
@@ -282,7 +280,7 @@ function EventTable({
                 <td className="px-5 py-3">
                   <div className="flex items-center gap-3">
                     <Link
-                      href={`/events/${event.id}`}
+                      href={`/admin-events/${event.id}`}
                       className="text-xs font-medium text-primary hover:text-primary-light transition-colors no-underline"
                     >
                       Manage
