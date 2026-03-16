@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, Copy, Check } from 'lucide-react'
 
 const SERVICE_TIMES = [
   { day: 'Sunday',    services: ['8:00 AM — First Service', '10:30 AM — Second Service'] },
@@ -9,152 +9,165 @@ const SERVICE_TIMES = [
   { day: 'Friday',    services: ['6:00 PM — Prayer Night']                               },
 ]
 
-const CONTACT_INFO = [
-  { icon: MapPin, label: 'Address',  value: 'Unity AIC Church, Nairobi, Kenya'    },
-  { icon: Phone,  label: 'Phone',    value: '+254 700 000 000'                    },
-  { icon: Mail,   label: 'Email',    value: 'info@unityaic.org'                   },
-]
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false)
 
-export default function ContactPage() {
-  const [form, setForm]       = useState({ name: '', email: '', message: '' })
-  const [submitted, setSubmit] = useState(false)
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    // MVP: just show success — no backend
-    setSubmit(true)
+  async function handleCopy() {
+    await navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
+    <button
+      onClick={handleCopy}
+      title="Copy"
+      style={{
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        width: '28px', height: '28px', borderRadius: '6px',
+        backgroundColor: copied ? '#D1FAE5' : '#F3F4F6',
+        border: 'none', cursor: 'pointer', flexShrink: 0,
+        color: copied ? '#065F46' : '#6B7280',
+        transition: 'all 0.2s',
+      }}
+    >
+      {copied ? <Check size={13} /> : <Copy size={13} />}
+    </button>
+  )
+}
+
+export default function ContactPage() {
+  return (
     <main>
 
-      {/* Hero */}
-      <section className="bg-primary py-20 px-4 sm:px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-accent" />
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="h-px w-8 bg-accent" />
-            <span className="text-accent text-xs font-semibold uppercase tracking-[0.2em]">Get In Touch</span>
-            <div className="h-px w-8 bg-accent" />
-          </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white">Contact Us</h1>
-          <p className="text-white/70 text-base max-w-xl leading-relaxed">
-            We would love to hear from you. Reach out with any questions or visit us on Sunday.
+      {/* Page header */}
+      <div style={{ backgroundColor: '#1B3A6B', padding: '80px 32px 48px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <p style={{ color: '#C9A84C', fontSize: '11px', fontWeight: '700', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '16px' }}>
+            Get In Touch
+          </p>
+          <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: '800', color: '#ffffff', lineHeight: '1.05' }}>
+            Contact Us.
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem', marginTop: '16px', maxWidth: '480px', lineHeight: '1.7' }}>
+            We would love to hear from you. Reach out or visit us on Sunday.
           </p>
         </div>
-      </section>
+      </div>
 
       {/* Content */}
-      <section className="py-20 px-4 sm:px-6 bg-white">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div style={{ padding: '64px 32px', backgroundColor: '#F7F8FC' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '48px' }}>
 
-          {/* Left — info */}
-          <div className="flex flex-col gap-8">
-
-            {/* Contact details */}
-            <div>
-              <h2 className="font-display text-2xl font-bold text-primary mb-6">Find Us</h2>
-              <div className="flex flex-col gap-4">
-                {CONTACT_INFO.map(item => {
-                  const Icon = item.icon
-                  return (
-                    <div key={item.label} className="flex items-start gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                        <Icon size={16} className="text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-0.5">
-                          {item.label}
-                        </p>
-                        <p className="text-sm font-medium text-primary">{item.value}</p>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Service times */}
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-9 h-9 rounded-lg bg-accent/20 flex items-center justify-center shrink-0">
-                  <Clock size={16} className="text-accent" />
-                </div>
-                <h3 className="font-display text-lg font-bold text-primary">Service Times</h3>
-              </div>
-              <div className="flex flex-col gap-3">
-                {SERVICE_TIMES.map(s => (
-                  <div key={s.day} className="flex flex-col gap-1 p-4 rounded-xl bg-[#F7F8FC] border border-border">
-                    <p className="text-xs font-semibold text-accent uppercase tracking-wider">{s.day}</p>
-                    {s.services.map(sv => (
-                      <p key={sv} className="text-sm font-medium text-primary">{sv}</p>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right — form */}
+          {/* Contact details */}
           <div>
-            <h2 className="font-display text-2xl font-bold text-primary mb-6">Send a Message</h2>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1B3A6B', marginBottom: '24px' }}>Find Us</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
-            {submitted ? (
-              <div className="flex flex-col items-center gap-4 py-12 text-center animate-fade-in">
-                <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center text-2xl">
-                  ✓
+              {/* Address */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', backgroundColor: 'rgba(27,58,107,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <MapPin size={16} color="#1B3A6B" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-primary">Message Received</h3>
-                <p className="text-sm text-muted max-w-xs">
-                  Thank you for reaching out. We will get back to you shortly.
-                </p>
-                <button
-                  onClick={() => { setSubmit(false); setForm({ name: '', email: '', message: '' }) }}
-                  className="text-sm font-medium text-accent hover:text-accent-dark transition-colors cursor-pointer"
-                >
-                  Send another message
-                </button>
+                <div>
+                  <p style={{ fontSize: '11px', fontWeight: '700', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Address</p>
+                  <p style={{ fontSize: '14px', fontWeight: '600', color: '#1B3A6B' }}>Unity AIC Church, Nairobi, Kenya</p>
+                </div>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-primary">Your Name</label>
-                  <input
-                    type="text" required value={form.name}
-                    onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                    placeholder="Jane Wanjiku"
-                    className="w-full px-3.5 py-3 rounded-xl border border-border text-sm text-[#111827] placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
-                  />
+
+              {/* Phone */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', backgroundColor: 'rgba(27,58,107,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Phone size={16} color="#1B3A6B" />
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-primary">Email Address</label>
-                  <input
-                    type="email" required value={form.email}
-                    onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                    placeholder="jane@example.com"
-                    className="w-full px-3.5 py-3 rounded-xl border border-border text-sm text-[#111827] placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
-                  />
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: '11px', fontWeight: '700', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Phone</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <a
+                      href="tel:+254700000000"
+                      style={{ fontSize: '14px', fontWeight: '600', color: '#1B3A6B', textDecoration: 'none' }}
+                    >
+                      +254 700 000 000
+                    </a>
+                    <CopyButton text="+254700000000" />
+                  </div>
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-medium text-primary">Message</label>
-                  <textarea
-                    required rows={5} value={form.message}
-                    onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
-                    placeholder="How can we help you?"
-                    className="w-full px-3.5 py-3 rounded-xl border border-border text-sm text-[#111827] placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all resize-none"
-                  />
+              </div>
+
+              {/* Email */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', backgroundColor: 'rgba(27,58,107,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Mail size={16} color="#1B3A6B" />
                 </div>
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-light transition-colors cursor-pointer mt-1"
-                >
-                  Send Message
-                </button>
-              </form>
-            )}
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: '11px', fontWeight: '700', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Email</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <a
+                      href="mailto:info@unityaic.org"
+                      style={{ fontSize: '14px', fontWeight: '600', color: '#1B3A6B', textDecoration: 'none' }}
+                    >
+                      info@unityaic.org
+                    </a>
+                    <CopyButton text="info@unityaic.org" />
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
+
+          {/* Service times */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
+              <div style={{ width: '36px', height: '36px', borderRadius: '8px', backgroundColor: 'rgba(201,168,76,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <Clock size={16} color="#C9A84C" />
+              </div>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1B3A6B' }}>Service Times</h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {SERVICE_TIMES.map(s => (
+                <div
+                  key={s.day}
+                  style={{ padding: '16px 20px', borderRadius: '10px', backgroundColor: '#ffffff', border: '1px solid #E5E7EB' }}
+                >
+                  <p style={{ fontSize: '11px', fontWeight: '700', color: '#C9A84C', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '6px' }}>
+                    {s.day}
+                  </p>
+                  {s.services.map(sv => (
+                    <p key={sv} style={{ fontSize: '14px', fontWeight: '500', color: '#1B3A6B' }}>{sv}</p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Location note */}
+          <div>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1B3A6B', marginBottom: '24px' }}>Visit Us</h2>
+            <div style={{ padding: '24px', borderRadius: '12px', backgroundColor: '#ffffff', border: '1px solid #E5E7EB' }}>
+              <p style={{ fontSize: '14px', color: '#6B7280', lineHeight: '1.8', marginBottom: '16px' }}>
+                We meet every Sunday at our church premises in Nairobi. New visitors are always welcome — come as you are.
+              </p>
+              <p style={{ fontSize: '14px', color: '#6B7280', lineHeight: '1.8', marginBottom: '20px' }}>
+                If you need directions or have any questions before your first visit, don't hesitate to call or email us directly.
+              </p>
+              <a
+                href="tel:+254700000000"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  backgroundColor: '#1B3A6B', color: '#ffffff',
+                  padding: '12px 24px', borderRadius: '8px',
+                  fontSize: '14px', fontWeight: '700', textDecoration: 'none',
+                }}
+              >
+                <Phone size={14} /> Call Us
+              </a>
+            </div>
+          </div>
+
         </div>
-      </section>
+      </div>
+
     </main>
   )
 }
