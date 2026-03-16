@@ -68,18 +68,20 @@ export function UpcomingEvents({ events }: { events: Event[] }) {
                   border: '1px solid #E5E7EB',
                   overflow: 'hidden',
                   height: '100%',
+                  minHeight: '320px',
                 }}>
+                  
                   {/* Banner or color bar */}
                   {event.banner ? (
-                    <div style={{ aspectRatio: '16/7', overflow: 'hidden' }}>
+                    <div style={{ height: '220px', overflow: 'hidden' }}>
                       <img
-                        src={urlFor(event.banner).width(600).height(262).fit('crop').url()}
+                        src={urlFor(event.banner).width(600).height(440).fit('crop').url()}
                         alt={event.title}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                       />
                     </div>
                   ) : (
-                    <div style={{ height: '4px', backgroundColor: TOP_COLORS[i % TOP_COLORS.length] }} />
+                    <div style={{ height: '220px', backgroundColor: TOP_COLORS[i % TOP_COLORS.length], opacity: 0.15 }} />
                   )}
 
                   <div style={{ padding: '24px' }}>
