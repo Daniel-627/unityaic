@@ -20,7 +20,7 @@ const NAV_ITEMS = [
       { label: 'Members',       href: '/members',       icon: '👤' },
       { label: 'Departments',   href: '/ministry',      icon: '⛪' },
       { label: 'Services',      href: '/services',      icon: '📅' },
-      { label: 'Events',        href: '/events',        icon: '🗓' },
+      { label: 'Events', href: '/admin-events', icon: '🗓' },
       { label: 'Attendance',    href: '/attendance',    icon: '✓'  },
       { label: 'Gallery',       href: '/admin-gallery',       icon: '🖼'  },
     ],
