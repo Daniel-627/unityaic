@@ -81,7 +81,7 @@ export function DepartmentsList({ departments }: { departments: Department[] }) 
         {departments.map(dept => (
           <Link
             key={dept.id}
-            href={`/ministry/${dept.id}`}
+            href={`/admin-ministry/${dept.id}`}
             className={`no-underline bg-white rounded-xl border border-border border-t-4 ${DEPT_COLOR[dept.type] ?? 'border-t-primary'} p-5 flex flex-col gap-4 hover:shadow-md hover:border-primary/20 transition-all animate-fade-in`}
           >
             <div className="flex items-start justify-between gap-2">

@@ -18,7 +18,7 @@ const NAV_ITEMS = [
     group: 'Ministry',
     items: [
       { label: 'Members',       href: '/members',       icon: '👤' },
-      { label: 'Departments',   href: '/ministry',      icon: '⛪' },
+      { label: 'Departments',   href: '/admin-ministry',      icon: '⛪' },
       { label: 'Services',      href: '/services',      icon: '📅' },
       { label: 'Events', href: '/admin-events', icon: '🗓' },
       { label: 'Attendance',    href: '/attendance',    icon: '✓'  },

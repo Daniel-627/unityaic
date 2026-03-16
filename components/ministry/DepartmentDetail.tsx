@@ -121,7 +121,7 @@ export function DepartmentDetail({ department }: { department: Department }) {
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link
-          href="/ministry"
+          href="/admin-ministry"
           className="flex items-center justify-center w-8 h-8 rounded-lg border border-border text-muted hover:bg-sunken transition-colors no-underline"
         >
           <ArrowLeft size={16} />
