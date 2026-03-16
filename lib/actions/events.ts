@@ -8,7 +8,15 @@ import {
   ministryDepartments,
 } from '@/lib/db/schema'
 import { eq, sql } from 'drizzle-orm'
-import { z } from 'zod'
+import { z }       from 'zod'
+import { createClient } from '@sanity/client'
+
+const sanityClient = createClient({
+  projectId:  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset:    process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  apiVersion: '2024-01-01',
+  useCdn:     false,
+})
 
 const eventSchema = z.object({
   title:        z.string().min(2),
@@ -68,12 +76,12 @@ export async function getEventById(id: string) {
 
   const registrations = await db
     .select({
-      id:          eventRegistrations.id,
-      memberId:    members.id,
-      memberName:  members.name,
-      memberEmail: members.email,
+      id:           eventRegistrations.id,
+      memberId:     members.id,
+      memberName:   members.name,
+      memberEmail:  members.email,
       registeredAt: eventRegistrations.registeredAt,
-      attended:    eventRegistrations.attended,
+      attended:     eventRegistrations.attended,
     })
     .from(eventRegistrations)
     .innerJoin(members, eq(eventRegistrations.memberId, members.id))
@@ -91,7 +99,11 @@ export async function getEventById(id: string) {
     .from(ministryDepartments)
     .where(sql`${ministryDepartments.isActive} = true`)
 
-  return { ...event, registrations, allMembers, allDepartments }
+  const media = await sanityClient
+    .fetch(`*[_type == "eventMedia" && eventId == $eventId][0]`, { eventId: id })
+    .catch(() => null)
+
+  return { ...event, registrations, allMembers, allDepartments, media }
 }
 
 // ─── MUTATIONS ────────────────────────────────────────────────────────────────
