@@ -1,134 +1,139 @@
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { FiCheckCircle } from 'react-icons/fi'
 
 type Department = {
   id:          string
   name:        string
   type:        string
   description: string | null
-  memberCount: number
   headName:    string | null
+  memberCount: number
 }
 
-const DEPT_CONFIG: Record<string, {
-  emoji: string
-  color: string
-  bg:    string
-  description: string
-}> = {
-  YOUTH: {
-    emoji:       '🎯',
-    color:       'text-blue-600',
-    bg:          'bg-blue-50',
-    description: 'Empowering the next generation through faith, fellowship, and fun activities designed for young people.',
-  },
-  WOMENS_FELLOWSHIP: {
-    emoji:       '🌸',
-    color:       'text-pink-600',
-    bg:          'bg-pink-50',
-    description: 'A sisterhood of faith where women grow together in the Word, support one another, and serve the community.',
-  },
-  MENS_FELLOWSHIP: {
-    emoji:       '🤝',
-    color:       'text-indigo-600',
-    bg:          'bg-indigo-50',
-    description: 'Men committed to godly leadership in their families, church, and community through accountability and prayer.',
-  },
-  SUNDAY_SCHOOL: {
-    emoji:       '📖',
-    color:       'text-amber-600',
-    bg:          'bg-amber-50',
-    description: 'Nurturing children in the knowledge and love of God through age-appropriate Bible teaching every Sunday.',
-  },
-  CADET_STAR: {
-    emoji:       '⭐',
-    color:       'text-green-600',
-    bg:          'bg-green-50',
-    description: 'Building character, discipline, and faith in pre-teens through structured programmes and mentorship.',
-  },
+const DEPT_DESC: Record<string, string> = {
+  YOUTH:             'Empowering young people through faith, fellowship, and purposeful activities.',
+  WOMENS_FELLOWSHIP: 'A sisterhood of faith where women grow together in the Word and serve.',
+  MENS_FELLOWSHIP:   'Men committed to godly leadership in family, church, and community.',
+  SUNDAY_SCHOOL:     'Nurturing children in the love and knowledge of God every Sunday.',
+  CADET_STAR:        'Building character and faith in pre-teens through structured programmes.',
 }
 
+const DEPT_ACTIVITIES: Record<string, string[]> = {
+  YOUTH:             ['Weekly youth fellowship', 'Annual rallies and competitions', 'Community outreach'],
+  WOMENS_FELLOWSHIP: ['Weekly Bible study', 'Annual AGM', 'Welfare programmes'],
+  MENS_FELLOWSHIP:   ['Men\'s Bible study', 'Annual AGM', 'Family enrichment'],
+  SUNDAY_SCHOOL:     ['Sunday morning classes', 'Bible memory training', 'Holiday programmes'],
+  CADET_STAR:        ['Weekly Cadet meetings', 'Character training', 'Annual rallies'],
+}
+
+const DEPT_COLOR: Record<string, string> = {
+  YOUTH:             '#3B82F6',
+  WOMENS_FELLOWSHIP: '#EC4899',
+  MENS_FELLOWSHIP:   '#6366F1',
+  SUNDAY_SCHOOL:     '#F59E0B',
+  CADET_STAR:        '#10B981',
+}
+
+const DEPT_EMOJI: Record<string, string> = {
+  YOUTH:             '🎯',
+  WOMENS_FELLOWSHIP: '🌸',
+  MENS_FELLOWSHIP:   '🤝',
+  SUNDAY_SCHOOL:     '📖',
+  CADET_STAR:        '⭐',
+}
 
 export function Ministries({ departments }: { departments: Department[] }) {
   if (!departments.length) return null
 
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section style={{ padding: '80px 32px', backgroundColor: '#ffffff' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
-        {/* Heading */}
-        <div className="text-center mb-14 max-w-2xl mx-auto">
-          <p className="text-accent text-xs font-semibold tracking-[0.25em] uppercase mb-3">
+        {/* Editorial heading */}
+        <div style={{ marginBottom: '64px' }}>
+          <p style={{ color: '#C9A84C', fontSize: '11px', fontWeight: '700', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '16px' }}>
             Find Your Place
           </p>
-
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-primary mb-4">
-            Our Ministries
-          </h2>
-
-          <p className="text-muted text-sm sm:text-base">
-            We have a ministry for every season of life. Find your
-            community and grow in faith together.
-          </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
+            <h2 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: '800', color: '#1B3A6B', lineHeight: '1.05' }}>
+              Our<br />Ministries.
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#6B7280', maxWidth: '380px', textAlign: 'right', lineHeight: '1.7' }}>
+              Five CED ministry departments serving every age and stage of life at Unity AIC Church.
+            </p>
+          </div>
         </div>
 
-        {/* Cards */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-          {departments.map((dept) => {
-            const config = DEPT_CONFIG[dept.type]
-
+        {/* Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '24px', marginBottom: '48px' }}>
+          {departments.map(dept => {
+            const color = DEPT_COLOR[dept.type] ?? '#1B3A6B'
+            const acts  = DEPT_ACTIVITIES[dept.type] ?? []
             return (
               <div
                 key={dept.id}
-                className="flex flex-col p-6 rounded-2xl border border-border hover:shadow-lg transition"
+                style={{
+                  backgroundColor: '#F7F8FC',
+                  borderRadius: '16px',
+                  border: '1px solid #E5E7EB',
+                  borderTop: `4px solid ${color}`,
+                  padding: '24px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                }}
               >
-
-                <div className="flex items-center gap-3 mb-3">
-
-                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center text-xl ${config?.bg ?? "bg-gray-50"}`}>
-                    {config?.emoji ?? "⛪"}
+                {/* Header */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <span style={{ fontSize: '2rem' }}>{DEPT_EMOJI[dept.type] ?? '⛪'}</span>
+                  <div>
+                    <h3 style={{ fontSize: '1rem', fontWeight: '700', color: '#1B3A6B', lineHeight: '1.3' }}>{dept.name}</h3>
+                    <p style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '2px' }}>{dept.memberCount} members</p>
                   </div>
-
-                  <h3 className="font-display font-bold text-primary">
-                    {dept.name}
-                  </h3>
-
                 </div>
 
-                <p className="text-sm text-muted leading-relaxed flex-grow">
-                  {dept.description ?? config?.description ?? ""}
+                {/* Description */}
+                <p style={{ fontSize: '13px', color: '#6B7280', lineHeight: '1.7' }}>
+                  {dept.description ?? DEPT_DESC[dept.type] ?? ''}
                 </p>
 
-                <div className="flex justify-between pt-4 border-t border-border mt-5 text-xs text-muted">
-
-                  <span>
-                    {dept.memberCount} member{dept.memberCount !== 1 && "s"}
-                  </span>
-
-                  {dept.headName && (
-                    <span>
-                      Led by <span className="font-medium text-primary">{dept.headName}</span>
-                    </span>
-                  )}
-
+                {/* Activities */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {acts.map((act, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <FiCheckCircle style={{ color, flexShrink: 0 }} size={13} />
+                      <p style={{ fontSize: '13px', color: '#374151' }}>{act}</p>
+                    </div>
+                  ))}
                 </div>
+
+                {/* Footer */}
+                {dept.headName && (
+                  <div style={{ paddingTop: '12px', borderTop: '1px solid #E5E7EB' }}>
+                    <p style={{ fontSize: '12px', color: '#9CA3AF' }}>Head</p>
+                    <p style={{ fontSize: '13px', fontWeight: '600', color: '#1B3A6B' }}>{dept.headName}</p>
+                  </div>
+                )}
               </div>
             )
           })}
-
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-12">
+        {/* Bottom CTA */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Link
-            href="/register"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white text-sm font-semibold hover:bg-primary-light transition"
+            href="/ministries"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              backgroundColor: '#1B3A6B', color: '#ffffff',
+              padding: '14px 32px', borderRadius: '8px',
+              fontSize: '14px', fontWeight: '700', textDecoration: 'none',
+            }}
           >
-            Join a Ministry
-            <ArrowRight size={16} />
+            Explore All Ministries →
           </Link>
         </div>
+
       </div>
     </section>
   )
