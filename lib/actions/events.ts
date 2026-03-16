@@ -35,7 +35,7 @@ const editEventSchema = eventSchema.extend({ id: z.string().uuid() })
 // ─── QUERIES ──────────────────────────────────────────────────────────────────
 
 export async function getEvents() {
-  return db
+  const eventsList = await db
     .select({
       id:             events.id,
       title:          events.title,
@@ -50,6 +50,18 @@ export async function getEvents() {
     .from(events)
     .leftJoin(ministryDepartments, eq(events.departmentId, ministryDepartments.id))
     .orderBy(sql`${events.startDate} DESC`)
+
+  // Fetch all event media from Sanity in one query
+  const mediaList = await sanityClient
+    .fetch(`*[_type == "eventMedia"] { eventId, banner }`)
+    .catch(() => [])
+
+  const mediaMap: Record<string, any> = {}
+  for (const m of mediaList) {
+    if (m.eventId) mediaMap[m.eventId] = m.banner
+  }
+
+  return eventsList.map(e => ({ ...e, banner: mediaMap[e.id] ?? null }))
 }
 
 export async function getEventById(id: string) {
