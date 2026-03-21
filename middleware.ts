@@ -5,6 +5,11 @@ const publicRoutes = [
   "/",
   "/login",
   "/register",
+  "/about",
+  "/contact",
+  "/events",
+  "/ministries",
+  "/gallery",
 ]
 
 const roleRoutes: Record<string, string[]> = {
