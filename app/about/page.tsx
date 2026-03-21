@@ -83,6 +83,14 @@ export default function AboutPage() {
         </div>
 
       </div>
+      {/* Academic note */}
+<div style={{ backgroundColor: '#ffffff', padding: '32px', borderTop: '1px solid #E5E7EB', textAlign: 'center' }}>
+  <p style={{ color: '#6B7280', fontSize: '14px', lineHeight: '1.8', maxWidth: '700px', margin: '0 auto' }}>
+    This project was developed by <strong style={{ color: '#1B3A6B' }}>Ruth Njeri Muiru</strong> (Reg. No. 2025CS163361)
+    as a partial fulfilment of the requirements for the award of a Diploma in Technical Trainer Education — Computer Studies,
+    under the supervision of <strong style={{ color: '#1B3A6B' }}>Alice Kemunto Ogoro</strong>. Submitted December 2025, CSCS-A.
+  </p>
+</div>
     </main>
   )
 }
