@@ -7,14 +7,19 @@ export default function Hero() {
   return (
     <section className="relative w-full h-screen min-h-[640px] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <Image
-        src="/church.jpg"
-        alt="Unity AIC Church congregation"
-        fill
-        priority
-        unoptimized
-        className="object-cover object-center"
-      />
+      {/* Background Image */}
+<img
+  src="/church.jpg"
+  alt="Unity AIC Church congregation"
+  style={{
+    position: 'absolute',
+    inset: 0,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center',
+  }}
+/>
 
       {/* Overlay — darker at bottom so text is always readable */}
       {/* Overlay */}
