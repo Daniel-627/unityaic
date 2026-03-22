@@ -13,31 +13,39 @@ const publicRoutes = [
 ]
 
 const roleRoutes: Record<string, string[]> = {
-  "/studio":          ["ADMIN"],
-  "/settings":        ["ADMIN"],
-  "/admin-gallery":   ["ADMIN"],
-  "/members":         ["ADMIN", "FINANCE_OFFICER", "DEPT_HEAD"],
-  "/ministry":        ["ADMIN", "DEPT_HEAD"],
-  "/contributions":   ["ADMIN", "FINANCE_OFFICER"],
-  "/receipts":        ["ADMIN", "FINANCE_OFFICER"],
-  "/expenses":        ["ADMIN", "FINANCE_OFFICER"],
-  "/funds":           ["ADMIN", "FINANCE_OFFICER"],
-  "/remittances":     ["ADMIN", "FINANCE_OFFICER"],
-  "/reports":         ["ADMIN", "FINANCE_OFFICER"],
+  "/studio":                      ["ADMIN"],
+  "/dashboard/settings":          ["ADMIN"],
+  "/dashboard/admin-gallery":     ["ADMIN"],
+  "/dashboard/admin-ministry":    ["ADMIN", "DEPT_HEAD"],
+  "/dashboard/members":           ["ADMIN", "FINANCE_OFFICER", "DEPT_HEAD"],
+  "/dashboard/services":          ["ADMIN", "DEPT_HEAD"],
+  "/dashboard/attendance":        ["ADMIN", "DEPT_HEAD"],
+  "/dashboard/admin-events":      ["ADMIN", "DEPT_HEAD"],
+  "/dashboard/contributions":     ["ADMIN", "FINANCE_OFFICER"],
+  "/dashboard/receipts":          ["ADMIN", "FINANCE_OFFICER"],
+  "/dashboard/expenses":          ["ADMIN", "FINANCE_OFFICER"],
+  "/dashboard/funds":             ["ADMIN", "FINANCE_OFFICER"],
+  "/dashboard/remittances":       ["ADMIN", "FINANCE_OFFICER"],
+  "/dashboard/reports":           ["ADMIN", "FINANCE_OFFICER"],
 }
 
 const ROLE_HOME: Record<string, string> = {
-  ADMIN:            "/dashboard",
-  FINANCE_OFFICER:  "/dashboard",
-  DEPT_HEAD:        "/dashboard",
-  MEMBER:           "/dashboard",
+  ADMIN:           "/dashboard",
+  FINANCE_OFFICER: "/dashboard",
+  DEPT_HEAD:       "/dashboard",
+  MEMBER:          "/dashboard",
 }
 
 export default auth((req) => {
   const { pathname } = req.nextUrl
   const session = req.auth
 
-  const isPublicRoute = publicRoutes.includes(pathname)
+  // Allow public routes
+  const isPublicRoute =
+    publicRoutes.includes(pathname) ||
+    pathname.startsWith('/events/') ||
+    pathname.startsWith('/gallery') ||
+    pathname.startsWith('/ministries')
 
   // Not logged in → redirect to login
   if (!session && !isPublicRoute) {
