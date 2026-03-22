@@ -5,83 +5,97 @@ import Image           from 'next/image'
 import { usePathname } from 'next/navigation'
 import { X, LogOut }   from 'lucide-react'
 import { signOut }     from 'next-auth/react'
-import { useSession } from 'next-auth/react'
+import { useSession }  from 'next-auth/react'
 
-const NAV_ITEMS = [
+type NavItem = {
+  label: string
+  href:  string
+  icon:  string
+  roles: string[]
+}
+
+type NavGroup = {
+  group: string
+  roles: string[]
+  items: NavItem[]
+}
+
+const NAV_ITEMS: NavGroup[] = [
   {
     group: 'Overview',
+    roles: ['ADMIN', 'FINANCE_OFFICER', 'DEPT_HEAD', 'MEMBER'],
     items: [
-      { label: 'Dashboard',     href: '/dashboard',              icon: '▦' },
+      { label: 'Dashboard', href: '/dashboard', icon: '▦', roles: ['ADMIN', 'FINANCE_OFFICER', 'DEPT_HEAD', 'MEMBER'] },
     ],
   },
   {
     group: 'Ministry',
+    roles: ['ADMIN', 'FINANCE_OFFICER', 'DEPT_HEAD'],
     items: [
-      { label: 'Members',       href: '/members',       icon: '👤' },
-      { label: 'Departments',   href: '/admin-ministry',      icon: '⛪' },
-      { label: 'Services',      href: '/services',      icon: '📅' },
-      { label: 'Events', href: '/admin-events', icon: '🗓' },
-      { label: 'Attendance',    href: '/attendance',    icon: '✓'  },
-      { label: 'Gallery',       href: '/admin-gallery',       icon: '🖼'  },
+      { label: 'Members',     href: '/dashboard/members',        icon: '👤', roles: ['ADMIN', 'FINANCE_OFFICER', 'DEPT_HEAD'] },
+      { label: 'Departments', href: '/dashboard/admin-ministry', icon: '⛪', roles: ['ADMIN', 'DEPT_HEAD']                    },
+      { label: 'Services',    href: '/dashboard/services',       icon: '📅', roles: ['ADMIN', 'DEPT_HEAD']                    },
+      { label: 'Events',      href: '/dashboard/admin-events',   icon: '🗓', roles: ['ADMIN', 'DEPT_HEAD']                    },
+      { label: 'Attendance',  href: '/dashboard/attendance',     icon: '✓',  roles: ['ADMIN', 'DEPT_HEAD']                    },
+      { label: 'Gallery',     href: '/dashboard/admin-gallery',  icon: '🖼',  roles: ['ADMIN']                                 },
     ],
   },
   {
     group: 'Finance',
+    roles: ['ADMIN', 'FINANCE_OFFICER'],
     items: [
-      { label: 'Contributions', href: '/contributions', icon: '💰' },
-      { label: 'Receipts',      href: '/receipts',      icon: '🧾' },
-      { label: 'Expenses',      href: '/expenses',      icon: '📤' },
-      { label: 'Funds',         href: '/funds',         icon: '🏦' },
-      { label: 'Remittances',   href: '/remittances',   icon: '📨' },
+      { label: 'Contributions', href: '/dashboard/contributions', icon: '💰', roles: ['ADMIN', 'FINANCE_OFFICER'] },
+      { label: 'Receipts',      href: '/dashboard/receipts',      icon: '🧾', roles: ['ADMIN', 'FINANCE_OFFICER'] },
+      { label: 'Expenses',      href: '/dashboard/expenses',      icon: '📤', roles: ['ADMIN', 'FINANCE_OFFICER'] },
+      { label: 'Funds',         href: '/dashboard/funds',         icon: '🏦', roles: ['ADMIN', 'FINANCE_OFFICER'] },
+      { label: 'Remittances',   href: '/dashboard/remittances',   icon: '📨', roles: ['ADMIN', 'FINANCE_OFFICER'] },
     ],
   },
   {
     group: 'Reports',
+    roles: ['ADMIN', 'FINANCE_OFFICER'],
     items: [
-      { label: 'All Reports',   href: '/reports',       icon: '📊' },
+      { label: 'All Reports', href: '/dashboard/reports', icon: '📊', roles: ['ADMIN', 'FINANCE_OFFICER'] },
     ],
   },
   {
     group: 'Settings',
+    roles: ['ADMIN'],
     items: [
-      { label: 'Settings',      href: '/settings',      icon: '⚙'  },
+      { label: 'Settings', href: '/dashboard/settings', icon: '⚙', roles: ['ADMIN'] },
     ],
   },
 ]
 
 function NavContent({ onClose }: { onClose?: () => void }) {
-  const pathname = usePathname()
-  const { data: session } = useSession()
-  const userName = session?.user?.name ?? 'Member'
-  const userRole = session?.user?.role ?? 'MEMBER'
-  const initials = userName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+  const pathname              = usePathname()
+  const { data: session }     = useSession()
+  const userName              = session?.user?.name ?? 'Member'
+  const userRole              = session?.user?.role ?? 'MEMBER'
+  const initials              = userName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+
+  const visibleGroups = NAV_ITEMS
+    .filter(group => group.roles.includes(userRole))
+    .map(group => ({
+      ...group,
+      items: group.items.filter(item => item.roles.includes(userRole)),
+    }))
+    .filter(group => group.items.length > 0)
 
   return (
     <div className="flex flex-col h-full">
 
-      {/* Logo lockup */}
+      {/* Logo */}
       <div className="flex items-center justify-between gap-3 px-4 py-5 border-b border-accent/20">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0 ring-2 ring-accent/50">
-            <Image
-              src="/aiclogo.png"
-              alt="AIC Logo"
-              width={28}
-              height={28}
-              className="object-contain"
-            />
+            <Image src="/aiclogo.png" alt="AIC Logo" width={28} height={28} className="object-contain" />
           </div>
           <div>
-            <p className="font-display text-sm font-bold text-white leading-tight">
-              Unity AIC
-            </p>
-            <p className="text-[10px] text-accent font-medium tracking-widest uppercase">
-              Church Platform
-            </p>
+            <p className="font-display text-sm font-bold text-white leading-tight">Unity AIC</p>
+            <p className="text-[10px] text-accent font-medium tracking-widest uppercase">Church Platform</p>
           </div>
         </div>
-
-        {/* Close — mobile only */}
         {onClose && (
           <button
             onClick={onClose}
@@ -93,14 +107,14 @@ function NavContent({ onClose }: { onClose?: () => void }) {
         )}
       </div>
 
-      {/* Nav groups */}
+      {/* Nav */}
       <nav className="flex-1 py-3 overflow-y-auto">
-        {NAV_ITEMS.map((group) => (
+        {visibleGroups.map(group => (
           <div key={group.group} className="mb-1">
             <p className="px-4 pt-3 pb-1 text-[10px] font-semibold tracking-widest uppercase text-accent/70">
               {group.group}
             </p>
-            {group.items.map((item) => {
+            {group.items.map(item => {
               const active =
                 pathname === item.href ||
                 (item.href !== '/dashboard' && pathname.startsWith(item.href))
@@ -125,7 +139,7 @@ function NavContent({ onClose }: { onClose?: () => void }) {
         ))}
       </nav>
 
-      {/* User pill + logout */}
+      {/* User pill */}
       <div className="p-3 border-t border-accent/20">
         <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-white/[0.06] hover:bg-white/10 transition-colors">
           <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-xs font-bold text-primary-dark shrink-0">
@@ -159,27 +173,19 @@ export function Sidebar({
 }) {
   return (
     <>
-      {/* Desktop sidebar */}
       <aside className="hidden md:flex flex-col w-60 min-h-screen bg-primary border-r border-accent/20 sticky top-0 h-screen overflow-y-auto shrink-0">
         <NavContent />
       </aside>
 
-      {/* Mobile overlay */}
       {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
-          onClick={onMobileClose}
-        />
+        <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={onMobileClose} />
       )}
 
-      {/* Mobile drawer */}
-      <aside
-        className={[
-          'fixed top-0 left-0 z-50 h-full w-64 bg-primary md:hidden',
-          'transition-transform duration-300 ease-in-out',
-          mobileOpen ? 'translate-x-0' : '-translate-x-full',
-        ].join(' ')}
-      >
+      <aside className={[
+        'fixed top-0 left-0 z-50 h-full w-64 bg-primary md:hidden',
+        'transition-transform duration-300 ease-in-out',
+        mobileOpen ? 'translate-x-0' : '-translate-x-full',
+      ].join(' ')}>
         <NavContent onClose={onMobileClose} />
       </aside>
     </>
