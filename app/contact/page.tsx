@@ -84,12 +84,12 @@ export default function ContactPage() {
                   <p style={{ fontSize: '11px', fontWeight: '700', color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Phone</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <a
-                      href="tel:+254700000000"
+                      href="tel:+254712473386"
                       style={{ fontSize: '14px', fontWeight: '600', color: '#1B3A6B', textDecoration: 'none' }}
                     >
                       +254 700 000 000
                     </a>
-                    <CopyButton text="+254700000000" />
+                    <CopyButton text="+254712473386" />
                   </div>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function ContactPage() {
                 If you need directions or have any questions before your first visit, don't hesitate to call or email us directly.
               </p>
               <a
-                href="tel:+254700000000"
+                href="tel:+254712473386"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '8px',
                   backgroundColor: '#1B3A6B', color: '#ffffff',
