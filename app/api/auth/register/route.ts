@@ -4,6 +4,8 @@ import { members } from '@/lib/db/schema'
 import { eq }      from 'drizzle-orm'
 import bcrypt      from 'bcryptjs'
 import { z }       from 'zod'
+import { resend, FROM }      from '@/lib/email'
+import { welcomeEmail }      from '@/lib/email-templates'
 
 const registerSchema = z.object({
   name:     z.string().min(2),
@@ -42,6 +44,15 @@ export async function POST(req: NextRequest) {
     role:         'MEMBER',
     isActive:     true,
   })
+
+  // Send welcome email — non-blocking
+  const template = welcomeEmail(name)
+  resend.emails.send({
+    from:    FROM,
+    to:      email,
+    subject: template.subject,
+    html:    template.html,
+  }).catch(err => console.error('[welcome email]', err))
 
   return NextResponse.json({ success: true }, { status: 201 })
 }

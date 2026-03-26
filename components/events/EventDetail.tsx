@@ -14,6 +14,9 @@ import { EventMedia } from '@/components/events/EventMedia'
 
 import { useSearchParams } from 'next/navigation'
 
+import { sendEventReminders } from '@/lib/actions/email'
+
+
 
 
 type Registration = {
@@ -59,6 +62,9 @@ export function EventDetail({ event }: { event: Event }) {
   const [selectedMember, setSelectedMember] = useState('')
   const [error,          setError]          = useState('')
   const [success,        setSuccess]        = useState('')
+
+  const [reminderSent, setReminderSent] = useState(false)
+
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState<'details' | 'media'>(
     searchParams.get('tab') === 'media' ? 'media' : 'details'
@@ -273,7 +279,34 @@ export function EventDetail({ event }: { event: Event }) {
                 </button>
               </form>
             </div>
+
+            
+<div className="bg-white rounded-xl border border-border p-5">
+  <h3 className="font-display text-base font-semibold text-primary mb-2">Send Reminders</h3>
+  <p className="text-xs text-muted mb-4">
+    Send an email reminder to all {registered.length} registered members.
+  </p>
+  {reminderSent && (
+    <div className="px-3 py-2 rounded-lg bg-green-50 border-l-4 border-green-500 text-green-700 text-xs mb-3">
+      Reminders sent successfully.
+    </div>
+  )}
+  <button
+    onClick={() => {
+      startTransition(async () => {
+        const res = await sendEventReminders(event.id)
+        if (res.success) setReminderSent(true)
+      })
+    }}
+    disabled={isPending || registered.length === 0}
+    className="w-full py-2.5 rounded-lg bg-accent text-primary-dark text-sm font-semibold disabled:opacity-60 cursor-pointer hover:bg-accent-light transition-colors"
+  >
+    {isPending ? 'Sending...' : `Send Reminder to ${registered.length} Members`}
+  </button>
+</div>
+
           </div>
+
 
           {/* Right — registrations */}
           <div className="lg:col-span-2 bg-white rounded-xl border border-border overflow-hidden">

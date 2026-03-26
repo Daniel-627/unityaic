@@ -267,3 +267,13 @@ export const journalLines = pgTable('journal_lines', {
   debit:          decimal('debit', { precision: 12, scale: 2 }).notNull().default('0'),
   credit:         decimal('credit', { precision: 12, scale: 2 }).notNull().default('0'),
 })
+
+// Add this to your existing schema
+export const passwordResetTokens = pgTable('password_reset_tokens', {
+  id:        uuid('id').primaryKey().defaultRandom(),
+  memberId:  uuid('member_id').references(() => members.id, { onDelete: 'cascade' }).notNull(),
+  token:     text('token').notNull().unique(),
+  expiresAt: timestamp('expires_at').notNull(),
+  usedAt:    timestamp('used_at'),
+  createdAt: timestamp('created_at').defaultNow(),
+})
