@@ -256,29 +256,49 @@ export function EventDetail({ event }: { event: Event }) {
             </div>
 
             {/* Register member */}
-            <div className="bg-white rounded-xl border border-border p-5">
-              <h3 className="font-display text-base font-semibold text-primary mb-4 flex items-center gap-2">
-                <UserPlus size={16} /> Register Member
-              </h3>
-              <form onSubmit={handleRegister} className="flex flex-col gap-3">
-                <select
-                  title="Select Member"
-                  value={selectedMember} onChange={e => setSelectedMember(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-border text-sm text-[#111827] focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
-                >
-                  <option value="">— Select member —</option>
-                  {available.map(m => (
-                    <option key={m.id} value={m.id}>{m.name}</option>
-                  ))}
-                </select>
-                <button
-                  type="submit" disabled={isPending || !selectedMember}
-                  className="w-full py-2.5 rounded-lg bg-accent text-primary-dark text-sm font-semibold hover:bg-accent-light transition-colors disabled:opacity-60 cursor-pointer"
-                >
-                  Register
-                </button>
-              </form>
-            </div>
+<div className="bg-white rounded-xl border border-border p-5">
+  <h3 className="font-display text-base font-semibold text-primary mb-4 flex items-center gap-2">
+    <UserPlus size={16} /> Register Member
+  </h3>
+  <form onSubmit={handleRegister} className="flex flex-col gap-3">
+    <select
+      title="Select Member"
+      value={selectedMember} onChange={e => setSelectedMember(e.target.value)}
+      className="w-full px-3 py-2 rounded-lg border border-border text-sm text-[#111827] focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all"
+    >
+      <option value="">— Select member —</option>
+      {available.map(m => (
+        <option key={m.id} value={m.id}>{m.name}</option>
+      ))}
+    </select>
+    <div className="flex gap-2">
+      <button
+        type="submit" disabled={isPending || !selectedMember}
+        className="flex-1 py-2.5 rounded-lg bg-accent text-primary-dark text-sm font-semibold hover:bg-accent-light transition-colors disabled:opacity-60 cursor-pointer"
+      >
+        Register
+      </button>
+      <button
+        type="button"
+        disabled={isPending || available.length === 0}
+        onClick={() => {
+          if (!confirm(`Register all ${available.length} remaining members?`)) return
+          startTransition(async () => {
+            await Promise.all(available.map(m => registerForEvent(event.id, m.id)))
+            router.refresh()
+          })
+        }}
+        className="px-3 py-2.5 rounded-lg bg-primary text-white text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-40 cursor-pointer"
+        title="Register all members"
+      >
+        All
+      </button>
+    </div>
+    {available.length > 0 && (
+      <p className="text-xs text-muted">{available.length} member{available.length !== 1 ? 's' : ''} not yet registered</p>
+    )}
+  </form>
+</div>
 
             
 <div className="bg-white rounded-xl border border-border p-5">
